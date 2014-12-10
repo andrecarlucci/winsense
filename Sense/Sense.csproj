@@ -169,7 +169,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\opensource\MrWindows\MrWindows\MrWindows.csproj">
+    <ProjectReference Include="..\..\MrWindows\MrWindows\MrWindows.csproj">
       <Project>{8ec5e180-7455-46fd-bfd5-7a16c99eb19d}</Project>
       <Name>MrWindows</Name>
     </ProjectReference>

@@ -24,10 +24,10 @@ namespace Sense.Profiles {
                 Camera.LeftHand);
             cameraToScreenMapper.Moved += LeftHandMoved;
 
-            var closeBothHands = PoseBuilder.Combine(Camera.LeftHand, State.Closed)
-                .With(Camera.RightHand, State.Closed)
-                .With(Camera.LeftHand, State.Visible)
-                .With(Camera.RightHand, State.Visible)
+            var closeBothHands = new PoseBuilder().ShouldBe(Camera.LeftHand, State.Closed)
+                .ShouldBe(Camera.RightHand, State.Closed)
+                .ShouldBe(Camera.LeftHand, State.Visible)
+                .ShouldBe(Camera.RightHand, State.Visible)
                 .Build("bothHandsClosed");
 
             closeBothHands.Begin += n => {

@@ -15,7 +15,7 @@
         >
     <Grid>
         <Border BorderThickness="1">
-                <Canvas x:Name="HandCanvas" Width="240" Height="180" Background="White">
+                <Canvas x:Name="HandCanvas" Width="240" Height="180" Background="Azure">
                 <StackPanel>
                     <TextBlock x:Name="ProcessName" Text="" Foreground="Black"/>
                     <TextBlock x:Name="Active" Text="" Foreground="Black"/>
