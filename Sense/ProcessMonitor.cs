@@ -28,12 +28,12 @@ namespace Sense {
         }
 
         protected virtual void OnActiveProcessLoop(string name) {
-            Action<string> handler = ActiveProcessLoop;
+            var handler = ActiveProcessLoop;
             if (handler != null) handler(name);
         }
 
         protected virtual void OnActiveProcessChanged(string name) {
-            Action<string> handler = ActiveProcessChanged;
+            var handler = ActiveProcessChanged;
             if (handler != null) handler(name);
         }
     }

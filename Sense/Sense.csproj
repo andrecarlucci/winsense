@@ -93,13 +93,15 @@
     <Compile Include="Events\EventProcessor.cs" />
     <Compile Include="ProcessMonitor.cs" />
     <Compile Include="Events\SimpleTrigger.cs" />
-    <Compile Include="Util\CameraToScreenMapper.cs" />
-    <Compile Include="Profiles\HandToMouseProfile.cs" />
+    <Compile Include="Profiles\Chrome.cs" />
+    <Compile Include="Profiles\PowerPoint.cs" />
     <Compile Include="Profiles\Profile.cs" />
     <Compile Include="Profiles\ProfileManager.cs" />
-    <Compile Include="Profiles\ScrollProfile.cs" />
-    <Compile Include="Profiles\SwipeToArrowsProfile.cs" />
-    <Compile Include="Profiles\SwipeToControlTabProfile.cs" />
+    <Compile Include="Util\CameraToScreenMapper.cs" />
+    <Compile Include="Behaviors\HandToMouseBehavior.cs" />
+    <Compile Include="Behaviors\Behavior.cs" />
+    <Compile Include="Behaviors\SwipeToArrowsBehavior.cs" />
+    <Compile Include="Behaviors\SwipeToControlTabBehavior.cs" />
     <Compile Include="RealSenseCredentialPluginClient.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

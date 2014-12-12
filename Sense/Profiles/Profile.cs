@@ -1,28 +1,29 @@
 ﻿using System;
-using MrWindows;
-using SharpSenses;
+using System.Collections.Generic;
+using Sense.Behaviors;
 
 namespace Sense.Profiles {
-    public abstract class Profile {
-        protected Windows Windows { get; set; }
-        protected ICamera Camera { get; set; }
-        protected ProcessMonitor ProcessMonitor { get; set; }
+    public class Profile {
+        private readonly Dictionary<Type, Behavior> _allBehaviors;
 
-        protected object _sync = new object();
+        public string Name { get; set; }
+        protected List<Behavior> Behaviors { get; set; }
 
-        protected Profile(Windows windows, ICamera camera, ProcessMonitor processMonitor) {
-            Windows = windows;
-            Camera = camera;
-            ProcessMonitor = processMonitor;
+        public Profile(Dictionary<Type, Behavior> allBehaviors) {
+            _allBehaviors = allBehaviors;
+            Behaviors = new List<Behavior>();
         }
 
-        public abstract string Name { get; }
-        public abstract void Config();
-        public virtual void Deactivate() { }
-        public virtual void DoIfActive(Action action) {
-            if (ProfileManager.IsActive(this)) {
-                action.Invoke();
-            }
+        protected void Add<T>() where T : Behavior {
+            Behaviors.Add(_allBehaviors[typeof(T)]);
+        }
+
+        public virtual void Activate() {
+            Behaviors.ForEach(b => b.Activate());
+        }
+
+        public virtual void Deactivate() {
+            Behaviors.ForEach(b => b.Deactivate());
         }
     }
 }

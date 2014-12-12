@@ -7,7 +7,7 @@
         WindowStartupLocation="Manual" 
         Left="0" Top="0"
         Loaded="Window_Loaded"
-        Height="180" Width="240" ResizeMode="NoResize" Opacity="0.6" WindowStyle="None" 
+        Height="480" Width="640" ResizeMode="NoResize" Opacity="0.6" WindowStyle="None" 
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         Background="White" 
         Foreground="White" 
@@ -15,10 +15,10 @@
         >
     <Grid>
         <Border BorderThickness="1">
-                <Canvas x:Name="HandCanvas" Width="240" Height="180" Background="Azure">
+                <Canvas x:Name="HandCanvas" Width="640" Height="480" Background="Black">
                 <StackPanel>
-                    <TextBlock x:Name="ProcessName" Text="" Foreground="Black"/>
-                    <TextBlock x:Name="Active" Text="" Foreground="Black"/>
+                    <TextBlock x:Name="ProcessName" Text="" Foreground="White"/>
+                    <TextBlock x:Name="Active" Text="" Foreground="White"/>
                 </StackPanel>
             </Canvas>
         </Border>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,12 +12,9 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Hardcodet.Wpf.TaskbarNotification;
 using MrWindows;
-using MrWindows.KeyboardControl;
-using MrWindows.Util;
+using Sense.Behaviors;
 using Sense.Profiles;
 using Sense.Util;
-using Mouse = MrWindows.MouseControl.Mouse;
-using Point = System.Drawing.Point;
 using SharpSenses;
 
 namespace Sense {
@@ -28,6 +26,9 @@ namespace Sense {
         private ProcessMonitor _processMonitor;
         private bool _faceMonitorActive;
         private DateTime _faceLastSeen;
+
+        public int Width = 640;
+        public int Height = 480;
 
         public MainWindow() {
             InitializeComponent();
@@ -43,15 +44,13 @@ namespace Sense {
         }
 
         private void StartCamera() {
-            ProfileManager.ProfileChanged += list => 
+            ProfileManager.Init(_camera, _win, _processMonitor);
+            
+            ProfileManager.ProfileChanged += p => {
                 Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
-                    Active.Text = String.Join("|", list.Select(x => x.Name))
+                    Active.Text = p.Name
                 ));
-
-            ProfileManager.EnableProfile<HandToMouseProfile>();
-            ProfileManager.EnableProfile<ScrollProfile>();
-            ProfileManager.EnableProfile<SwipeToArrowsProfile>();
-            ProfileManager.EnableProfile<SwipeToControlTabProfile>();
+            };
 
             SetUpHand(_camera.RightHand);
             SetUpHand(_camera.LeftHand);
@@ -174,7 +173,7 @@ namespace Sense {
                 Color color = part.IsVisible ? Color.FromArgb(100, 100, 200, 100) : Colors.Transparent;
                 ellipse.Fill = new SolidColorBrush(color);
 
-                var p = CameraToScreenMapper.MapToScreen(part.Position.Image, 240, 180);
+                var p = CameraToScreenMapper.MapToScreen(part.Position.Image, Width, Height);
                 if (p.X < 0) {
                     p.X = 0;
                 }

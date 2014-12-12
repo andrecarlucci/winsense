@@ -1,13 +1,12 @@
 using System;
-using System.Diagnostics;
 using System.Drawing;
-using MrWindows.Util;
 using SharpSenses;
 
 namespace Sense.Util {
-    public class CameraToScreenMapper {
+    public class CameraToScreenMapper : IDisposable {
         private int _screenWidth;
         private int _screenHeight;
+        private Item _item;
         private Point _lastPosition;
 
         public event Action<Point, Point> Moved;
@@ -15,6 +14,7 @@ namespace Sense.Util {
         public CameraToScreenMapper(int screenWidth, int screenHeight, Item item) {
             _screenWidth = screenWidth;
             _screenHeight = screenHeight;
+            _item = item;
             item.Moved += FilterMove;
         }
 
@@ -53,6 +53,10 @@ namespace Sense.Util {
         protected virtual void OnMoved(Point from, Point to) {
             Action<Point, Point> handler = Moved;
             if (handler != null) handler(@from, to);
+        }
+
+        public void Dispose() {
+            _item.Moved -= FilterMove;
         }
     }
 }

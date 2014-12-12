@@ -14,7 +14,7 @@ namespace Sense {
         static App() {
             Container = new Container();
             Container.Register<Windows>(Lifestyle.Singleton);
-            Container.Register<ICamera>(() =>  Camera.Create(CameraKind.RealSense), Lifestyle.Singleton);
+            Container.Register(() =>  Camera.Create(CameraKind.RealSense), Lifestyle.Singleton);
             Container.Register<ProcessMonitor>(Lifestyle.Singleton);
         }
     }

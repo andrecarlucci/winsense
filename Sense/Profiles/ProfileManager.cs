@@ -1,66 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using MrWindows;
+using Sense.Behaviors;
 using SharpSenses;
 
 namespace Sense.Profiles {
-    public class ProfileManager {
-        private static object _sync = new object();
+    public static class ProfileManager {
 
-        public static List<Profile> ActiveProfiles = new List<Profile>();
-        public static event Action<List<Profile>> ProfileChanged;
+        public static event Action<Profile> ProfileChanged;
+        public static Profile Current;
 
-        protected static void OnProfileChanged() {
-            Action<List<Profile>> handler = ProfileChanged;
-            if (handler != null) handler(new List<Profile>(ActiveProfiles));  
-        }
+        public static void Init(ICamera camera, Windows windows, ProcessMonitor processMonitor) {
+            var behaviors = CreateAll<Behavior>(camera, windows);
+            var profiles = CreateAll<Profile>(behaviors.ToDictionary(b => b.GetType(), b => b));
 
-        public static bool IsActive(string profileName) {
-            lock (_sync) {
-                return ActiveProfiles.Any(x => x.Name == profileName);
-            }
-        }
-
-        public static bool IsEmpty() {
-            lock (_sync) {
-                return !ActiveProfiles.Any();
-            }
-        }
-
-        public static bool IsActive(Profile profile) {
-            return IsActive(profile.Name);
-        }
-
-        public static void Activate(params Profile[] profiles) {
-            lock (_sync) {
-                foreach (var p in ActiveProfiles) {
-                    p.Deactivate();
+            processMonitor.ActiveProcessChanged += s => {
+                var profile = profiles.FirstOrDefault(p => p.Name == s);
+                if (Current != null) {
+                    Current.Deactivate();
                 }
-                ActiveProfiles.Clear();
-                ActiveProfiles.AddRange(profiles);
-                OnProfileChanged();    
-            }
-        }
-
-        public static void Deactivate(Profile profile) {
-            lock (_sync) {
-                if (ActiveProfiles.Contains(profile)) {
-                    ActiveProfiles.Remove(profile);
-                    profile.Deactivate();
-                    OnProfileChanged();
+                if (profile != null) {
+                    Current = profile;                    
                 }
-            }
-        }
-
-        public static void EnableProfile<T>() where T : Profile {
-            var pars = new object[] {
-                App.Container.GetInstance<Windows>(), 
-                App.Container.GetInstance<ICamera>(),
-                App.Container.GetInstance<ProcessMonitor>()
+                OnProfileChanged(Current);
             };
-            var profile = (Profile) Activator.CreateInstance(typeof (T), pars);
-            profile.Config();
+        }
+
+        private static List<T> CreateAll<T>(params object[] pars) {
+            var types =
+                Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsSubclassOf(typeof(T)));
+            return types.Select(type => ((T)Activator.CreateInstance(type, pars))).ToList();
+        }
+
+        private static void OnProfileChanged(Profile profile) {
+            var handler = ProfileChanged;
+            if (handler != null) handler(profile);
         }
     }
 }

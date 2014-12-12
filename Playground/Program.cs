@@ -13,7 +13,13 @@ namespace Playground {
             var win = new Windows();
             win.Mouse.MouseLeftClick();
 
-            camera = Camera.Create(CameraKind.RealSense);
+            try {
+                camera = Camera.Create(CameraKind.RealSense);
+            }
+            catch (Exception ex) {
+                camera = Camera.Create(CameraKind.RealSense);                   
+            }
+            
             camera.LeftHand.Moved += HandMoved; 
             camera.Gestures.SwipeRight += OnSwipe;
             camera.Gestures.SwipeLeft += OnSwipe;
@@ -22,9 +28,18 @@ namespace Playground {
             camera.LeftHand.Opened += OnHandOpen;
             camera.LeftHand.Closed += OnHandClose;
 
-            camera.Face.Month.Moved += p => Plot();
-            camera.LeftHand.Index.Moved += p => Plot();
+            //camera.Face.Month.Moved += p => Plot();
+            //camera.LeftHand.Index.Moved += p => Plot();
 
+            //camera.LeftHand.Index.Opened += () => Console.WriteLine("Index open");
+            //camera.LeftHand.Index.Closed += () => Console.WriteLine("Index closed");
+
+            //camera.LeftHand.FingerOpened += f => Console.WriteLine(f.Kind + " open");
+            //camera.LeftHand.FingerClosed += f => Console.WriteLine(f.Kind + " close");
+
+
+            camera.Poses.PeaceBegin += hand => Console.WriteLine("Peace, bro");
+            camera.Poses.PeaceEnd += hand => Console.WriteLine("Bye");
             var pose = PoseBuilder.Create().ShouldTouch(camera.Face.Month, camera.LeftHand.Index).Build();
             bool ok = false;
             pose.Begin += p => {
