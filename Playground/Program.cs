@@ -3,6 +3,7 @@ using SharpSenses;
 using SharpSenses.Poses;
 using System;
 using System.Linq;
+using SharpSenses.Gestures;
 
 namespace Playground {
     class Program {
@@ -19,14 +20,9 @@ namespace Playground {
             catch (Exception ex) {
                 camera = Camera.Create(CameraKind.RealSense);                   
             }
-            
-            camera.LeftHand.Moved += HandMoved; 
-            camera.Gestures.SwipeRight += OnSwipe;
-            camera.Gestures.SwipeLeft += OnSwipe;
 
-            camera.LeftHand.Visible += OnHandVisible;
-            camera.LeftHand.Opened += OnHandOpen;
-            camera.LeftHand.Closed += OnHandClose;
+            camera.Gestures.SlideLeft += GesturesOnSlideLeft;
+            camera.Gestures.SlideRight += GesturesOnSlideLeft;
 
             //camera.Face.Month.Moved += p => Plot();
             //camera.LeftHand.Index.Moved += p => Plot();
@@ -37,12 +33,11 @@ namespace Playground {
             //camera.LeftHand.FingerOpened += f => Console.WriteLine(f.Kind + " open");
             //camera.LeftHand.FingerClosed += f => Console.WriteLine(f.Kind + " close");
 
-
-            camera.Poses.PeaceBegin += hand => Console.WriteLine("Peace, bro");
-            camera.Poses.PeaceEnd += hand => Console.WriteLine("Bye");
-            var pose = PoseBuilder.Create().ShouldTouch(camera.Face.Month, camera.LeftHand.Index).Build();
-            bool ok = false;
-            pose.Begin += p => {
+            var pose = PoseBuilder.Create()
+                                  .ShouldBeNear(camera.Face.Mouth, camera.LeftHand.Index, 50)
+                                  .HoldPoseFor(1000)
+                                  .Build();
+            pose.Begin += (s,a) => {
                 Console.WriteLine("Super pose!");
             };
 
@@ -52,10 +47,14 @@ namespace Playground {
             camera.Dispose();
         }
 
+        private static void GesturesOnSlideLeft(object sender, GestureEventArgs gestureEventArgs) {
+            Console.WriteLine(gestureEventArgs.GestureName);
+        }
+
         private static void Plot() {
             Console.WriteLine(@"CX: {0:0} MX: {1:0}",
                 camera.LeftHand.Index.Position.Image.X,
-                camera.Face.Month.Position.Image.X);
+                camera.Face.Mouth.Position.Image.X);
         }
 
         private static void OnHandVisible() {

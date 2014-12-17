@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using MrWindows;
 using Sense.Util;
@@ -9,7 +10,7 @@ namespace Sense.Behaviors {
     public class HandToMouseBehavior : Behavior {
 
         private CameraToScreenMapper _cameraToScreenMapper;
-        private bool _scrolling = false;
+        private bool _scrolling;
         private Pose _closeBothHands;
 
         public HandToMouseBehavior(Windows windows, ICamera camera)
@@ -33,61 +34,25 @@ namespace Sense.Behaviors {
                 screenSize.Height,
                 Camera.LeftHand);
 
-            _cameraToScreenMapper.Moved += OnLeftHandMoved;
+            _cameraToScreenMapper.Moved += CameraToScreenMapperOnMoved;
             Camera.Gestures.MoveForward += OnMoveForward;
             Camera.RightHand.Closed += OnRightHandOnClosed;
             Camera.RightHand.Opened += OnRightHandOnOpened;
             Camera.RightHand.Visible += OnRightHandVisible;
             Camera.RightHand.NotVisible += OnRightHandNotVisible;
-            _closeBothHands.Begin += OnCloseBothHandsBegin;
-            _closeBothHands.End += OnCloseBothHandsEnd;
+            _closeBothHands.Begin += CloseBothHandsOnBegin;
+            _closeBothHands.End += CloseBothHandsOnEnd;
         }
 
-        private void OnCloseBothHandsEnd(string n) {
-            _scrolling = false;
-        }
-
-        private void OnCloseBothHandsBegin(string n) {
+        private void CloseBothHandsOnBegin(object sender, Pose.PoseEventArgs poseEventArgs) {
             _scrolling = true;
         }
 
-        public override void Deactivate() {
-            _cameraToScreenMapper.Moved -= OnLeftHandMoved;
-            Camera.Gestures.MoveForward -= OnMoveForward;
-            Camera.RightHand.Closed -= OnRightHandOnClosed;
-            Camera.RightHand.Opened -= OnRightHandOnOpened;
-            Camera.RightHand.Visible -= OnRightHandVisible;
-            Camera.RightHand.NotVisible -= OnRightHandNotVisible;
-            _cameraToScreenMapper.Dispose();
-            _closeBothHands.Begin -= OnCloseBothHandsBegin;
-            _closeBothHands.End -= OnCloseBothHandsEnd;
-            Windows.Mouse.MouseLeftUp();
-        }
-
-        private void OnRightHandNotVisible() {
-            Windows.Mouse.MouseLeftUp();
+        private void CloseBothHandsOnEnd(object sender, Pose.PoseEventArgs poseEventArgs) {
             _scrolling = false;
         }
 
-        private void OnRightHandVisible() {
-            Windows.Mouse.MouseLeftUp();
-            _scrolling = false;
-        }
-
-        private void OnRightHandOnOpened() {
-            Windows.Mouse.MouseLeftUp();
-            _scrolling = false;
-        }
-
-        private void OnRightHandOnClosed() {
-            Windows.Mouse.MouseLeftDown();
-        }
-
-        private void OnMoveForward(Hand h) {
-            Windows.Mouse.MouseLeftClick();
-        }
-
-        private void OnLeftHandMoved(Point p1, Point p2) {
+        private void CameraToScreenMapperOnMoved(Point p1, Point p2) {
             if (_scrolling) {
                 var direction = DirectionHelper.GetDirection(p1, p2);
                 if (direction == Direction.Left || direction == Direction.Right) {
@@ -99,6 +64,42 @@ namespace Sense.Behaviors {
                 return;
             }
             Windows.Mouse.MoveCursor(p2.X, p2.Y);
+        }
+
+        public override void Deactivate() {
+            _cameraToScreenMapper.Moved -= CameraToScreenMapperOnMoved;
+            Camera.Gestures.MoveForward -= OnMoveForward;
+            Camera.RightHand.Closed -= OnRightHandOnClosed;
+            Camera.RightHand.Opened -= OnRightHandOnOpened;
+            Camera.RightHand.Visible -= OnRightHandVisible;
+            Camera.RightHand.NotVisible -= OnRightHandNotVisible;
+            _cameraToScreenMapper.Dispose();
+            _closeBothHands.Begin -= CloseBothHandsOnBegin;
+            _closeBothHands.End -= CloseBothHandsOnEnd;
+            Windows.Mouse.MouseLeftUp();
+        }
+
+        private void OnRightHandNotVisible(object sender, EventArgs args) {
+            Windows.Mouse.MouseLeftUp();
+            _scrolling = false;
+        }
+
+        private void OnRightHandVisible(object sender, EventArgs args) {
+            Windows.Mouse.MouseLeftUp();
+            _scrolling = false;
+        }
+
+        private void OnRightHandOnOpened(object sender, EventArgs args) {
+            Windows.Mouse.MouseLeftUp();
+            _scrolling = false;
+        }
+
+        private void OnRightHandOnClosed(object sender, EventArgs args) {
+            Windows.Mouse.MouseLeftDown();
+        }
+
+        private void OnMoveForward(object sender, EventArgs args) {
+            Windows.Mouse.MouseLeftClick();
         }
     }
 }

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using Sense.Behaviors;
 
 namespace Sense.Profiles {
-    public class PowerPoint : Profile {
-        public PowerPoint(Dictionary<Type, Behavior> allBehaviors) : base(allBehaviors) {
+    public class StoreApps : Profile {
+        public StoreApps(Dictionary<Type, Behavior> allBehaviors)
+            : base(allBehaviors) {
             Add<SlideToArrowsBehavior>();
             Add<JoinHandsToCloseAppBehavior>();
         }
         public override string Name {
-            get { return "powerpnt"; }
+            get { return "WWAHOST"; }
         }
     }
 }

@@ -1,30 +1,32 @@
-﻿using MrWindows;
+﻿using System;
+using MrWindows;
 using MrWindows.KeyboardControl;
 using SharpSenses;
+using SharpSenses.Gestures;
 
 namespace Sense.Behaviors {
-    public class SwipeToControlTabBehavior : Behavior {
-        public SwipeToControlTabBehavior(Windows windows, ICamera camera) : base(windows, camera) {}
+    public class SlideToControlTabBehavior : Behavior {
+        public SlideToControlTabBehavior(Windows windows, ICamera camera) : base(windows, camera) {}
 
         public override string Name {
-            get { return "SwipeToControlTab"; }
+            get { return "SlideToControlTab"; }
         }
 
         public override void Activate() {
-            Camera.Gestures.SwipeLeft += OnSwipeLeft;
-            Camera.Gestures.SwipeRight += OnSwipeRight;
+            Camera.Gestures.SlideLeft += OnSlideLeft;
+            Camera.Gestures.SlideRight += OnSlideRight;
         }
 
         public override void Deactivate() {
-            Camera.Gestures.SwipeLeft -= OnSwipeLeft;
-            Camera.Gestures.SwipeRight -= OnSwipeRight;
+            Camera.Gestures.SlideLeft -= OnSlideLeft;
+            Camera.Gestures.SlideRight -= OnSlideRight;
         }
 
-        private void OnSwipeRight(Hand h) {
+        private void OnSlideRight(object sender, GestureEventArgs args) {
             Windows.Keyboard.Type(VirtualKey.Control, VirtualKey.Shift, VirtualKey.Tab);
         }
 
-        private void OnSwipeLeft(Hand h) {
+        private void OnSlideLeft(object sender, GestureEventArgs args) {
             Windows.Keyboard.Type(VirtualKey.Control, VirtualKey.Tab);
         }
     }

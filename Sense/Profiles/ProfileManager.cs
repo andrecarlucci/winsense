@@ -15,16 +15,17 @@ namespace Sense.Profiles {
         public static Profile Current;
 
         public static void Init(ICamera camera, Windows windows, ProcessMonitor processMonitor) {
-            var behaviors = CreateAll<Behavior>(camera, windows);
+            var behaviors = CreateAll<Behavior>(windows, camera);
             var profiles = CreateAll<Profile>(behaviors.ToDictionary(b => b.GetType(), b => b));
 
-            processMonitor.ActiveProcessChanged += s => {
-                var profile = profiles.FirstOrDefault(p => p.Name == s);
+            processMonitor.ActiveProcessChanged += processName => {
+                var profile = profiles.FirstOrDefault(p => p.Name.ToUpper() == processName.ToUpper());
                 if (Current != null) {
                     Current.Deactivate();
                 }
                 if (profile != null) {
-                    Current = profile;                    
+                    Current = profile;
+                    Current.Activate();
                 }
                 OnProfileChanged(Current);
             };

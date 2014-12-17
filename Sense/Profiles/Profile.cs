@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Sense.Behaviors;
 
 namespace Sense.Profiles {
-    public class Profile {
+    public abstract class Profile {
         private readonly Dictionary<Type, Behavior> _allBehaviors;
 
-        public string Name { get; set; }
+        public abstract string Name { get; }
         protected List<Behavior> Behaviors { get; set; }
 
-        public Profile(Dictionary<Type, Behavior> allBehaviors) {
+        protected Profile(Dictionary<Type, Behavior> allBehaviors) {
             _allBehaviors = allBehaviors;
             Behaviors = new List<Behavior>();
         }

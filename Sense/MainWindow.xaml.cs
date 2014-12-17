@@ -39,19 +39,22 @@ namespace Sense {
         private async void Window_Loaded(object sender, RoutedEventArgs e) {
             _win = App.Container.GetInstance<Windows>();
             StartProcessMonitor();
+            Messenger.NewMesssage += s => {
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                    Message.Text = s
+                ));
+            };
             _camera = await FindCamera();
             StartCamera();
         }
 
         private void StartCamera() {
             ProfileManager.Init(_camera, _win, _processMonitor);
-            
             ProfileManager.ProfileChanged += p => {
                 Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
-                    Active.Text = p.Name
+                    Active.Text = p != null ? p.Name : "default"
                 ));
             };
-
             SetUpHand(_camera.RightHand);
             SetUpHand(_camera.LeftHand);
             SetUpFace(_camera);
@@ -73,12 +76,12 @@ namespace Sense {
                     _client.Authorize().Wait();
                 }
             });
-            _camera.LeftHand.Moved += p => {
-                pLeft = p.Image;
+            _camera.LeftHand.Moved += (s, a) => {
+                pLeft = a.NewPosition.Image;
                 action.Invoke("L", pLeft, pRight);
             };
-            _camera.RightHand.Moved += p => {
-                pRight = p.Image;
+            _camera.RightHand.Moved += (s, a) => {
+                pRight = a.NewPosition.Image;
                 action.Invoke("R", pLeft, pRight);
             };
         }
@@ -123,14 +126,14 @@ namespace Sense {
                     }
                 }
             });
-            camera.Face.Moved += d => {
+            camera.Face.Moved += (s, a) => {
                 DisplayBodyPart(camera.Face, 30);
             };
-            camera.Face.Visible += () => {
+            camera.Face.Visible += (s, a) => {
                 _faceLastSeen = DateTime.Now;
                 Debug.WriteLine("Face visible");
             };
-            camera.Face.NotVisible += () => {
+            camera.Face.NotVisible += (s, a) => {
                 _faceLastSeen = DateTime.Now;
                 Debug.WriteLine("Face not visible");
             };
@@ -139,8 +142,8 @@ namespace Sense {
         private void SetUpHand(Hand hand) {
             SetUpItem(20, hand);
             SetUpItem(hand.Thumb, hand.Index, hand.Middle, hand.Ring, hand.Pinky);
-            _camera.RightHand.NotVisible += () => _win.Mouse.MouseLeftUp();
-            _camera.LeftHand.NotVisible += () => _win.Mouse.MouseLeftUp();
+            _camera.RightHand.NotVisible += (s, a) => _win.Mouse.MouseLeftUp();
+            _camera.LeftHand.NotVisible += (s, a) => _win.Mouse.MouseLeftUp();
         }
 
         private void SetUpItem(params Item[] items) {
@@ -150,8 +153,8 @@ namespace Sense {
         private void SetUpItem(int size, params Item[] items) {
             for (int i = 0; i < items.Length; i++) {
                 int i1 = i;
-                items[i].Moved += d => DisplayBodyPart(items[i1], size);
-                items[i].NotVisible += () => DisplayBodyPart(items[i1], size);                
+                items[i].Moved += (s, a) => DisplayBodyPart(items[i1], size);
+                items[i].NotVisible += (s, a) => DisplayBodyPart(items[i1], size);                
             }
         }
 

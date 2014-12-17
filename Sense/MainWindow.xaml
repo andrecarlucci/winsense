@@ -19,6 +19,7 @@
                 <StackPanel>
                     <TextBlock x:Name="ProcessName" Text="" Foreground="White"/>
                     <TextBlock x:Name="Active" Text="" Foreground="White"/>
+                    <TextBlock x:Name="Message" Text="" Foreground="White"/>
                 </StackPanel>
             </Canvas>
         </Border>

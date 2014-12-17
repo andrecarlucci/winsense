@@ -90,6 +90,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\JoinHandsToCloseAppBehavior.cs" />
     <Compile Include="Events\EventProcessor.cs" />
     <Compile Include="ProcessMonitor.cs" />
     <Compile Include="Events\SimpleTrigger.cs" />
@@ -97,12 +98,14 @@
     <Compile Include="Profiles\PowerPoint.cs" />
     <Compile Include="Profiles\Profile.cs" />
     <Compile Include="Profiles\ProfileManager.cs" />
+    <Compile Include="Profiles\StoreApps.cs" />
     <Compile Include="Util\CameraToScreenMapper.cs" />
     <Compile Include="Behaviors\HandToMouseBehavior.cs" />
     <Compile Include="Behaviors\Behavior.cs" />
-    <Compile Include="Behaviors\SwipeToArrowsBehavior.cs" />
+    <Compile Include="Behaviors\SlideToArrowsBehavior.cs" />
     <Compile Include="Behaviors\SwipeToControlTabBehavior.cs" />
     <Compile Include="RealSenseCredentialPluginClient.cs" />
+    <Compile Include="Util\Notifier.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

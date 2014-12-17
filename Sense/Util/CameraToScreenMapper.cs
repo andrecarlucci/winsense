@@ -15,7 +15,11 @@ namespace Sense.Util {
             _screenWidth = screenWidth;
             _screenHeight = screenHeight;
             _item = item;
-            item.Moved += FilterMove;
+            item.Moved += ItemOnMoved;
+        }
+
+        private void ItemOnMoved(object sender, PositionEventArgs positionEventArgs) {
+            FilterMove(positionEventArgs.NewPosition);
         }
 
         private void FilterMove(Position position) {
@@ -56,7 +60,7 @@ namespace Sense.Util {
         }
 
         public void Dispose() {
-            _item.Moved -= FilterMove;
+            _item.Moved -= ItemOnMoved;
         }
     }
 }
