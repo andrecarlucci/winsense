@@ -27,13 +27,14 @@ namespace Sense {
         private bool _faceMonitorActive;
         private DateTime _faceLastSeen;
 
-        public int Width = 640;
-        public int Height = 480;
+        public int Width = 320;
+        public int Height = 240;
 
         public MainWindow() {
             InitializeComponent();
             Left = SystemParameters.PrimaryScreenWidth - Width - 25;
             Top = SystemParameters.PrimaryScreenHeight - Height - 25;
+            Item.DefaultNoiseThreshold = 2;
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e) {
@@ -141,7 +142,11 @@ namespace Sense {
 
         private void SetUpHand(Hand hand) {
             SetUpItem(20, hand);
-            SetUpItem(hand.Thumb, hand.Index, hand.Middle, hand.Ring, hand.Pinky);
+            SetUpItem(hand.Thumb, hand.Thumb.BaseJoint, hand.Thumb.FirstJoint, hand.Thumb.SecondJoint);
+            SetUpItem(hand.Index, hand.Index.BaseJoint, hand.Index.FirstJoint, hand.Index.SecondJoint);
+            SetUpItem(hand.Middle, hand.Middle.BaseJoint, hand.Middle.FirstJoint, hand.Middle.SecondJoint);
+            SetUpItem(hand.Ring, hand.Ring.BaseJoint, hand.Ring.FirstJoint, hand.Ring.SecondJoint);
+            SetUpItem(hand.Pinky, hand.Pinky.BaseJoint, hand.Pinky.FirstJoint, hand.Pinky.SecondJoint);
             _camera.RightHand.NotVisible += (s, a) => _win.Mouse.MouseLeftUp();
             _camera.LeftHand.NotVisible += (s, a) => _win.Mouse.MouseLeftUp();
         }
@@ -209,6 +214,10 @@ namespace Sense {
 
         private void PanelVisible_OnChecked(object sender, RoutedEventArgs e) {
             Visibility = PanelVisible.IsChecked ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void Exit_OnClick(object sender, RoutedEventArgs e) {
+            Environment.Exit(0);
         }
     }
 }

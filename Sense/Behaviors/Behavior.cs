@@ -20,7 +20,7 @@ namespace Sense.Behaviors {
             Camera = camera;
         }
 
-        public virtual void Activate() {}
-        public virtual void Deactivate() {}
+        public abstract void Activate();
+        public abstract void Deactivate();
     }
 }

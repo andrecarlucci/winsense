@@ -7,7 +7,7 @@
         WindowStartupLocation="Manual" 
         Left="0" Top="0"
         Loaded="Window_Loaded"
-        Height="480" Width="640" ResizeMode="NoResize" Opacity="0.6" WindowStyle="None" 
+        Height="240" Width="320" ResizeMode="NoResize" Opacity="0.6" WindowStyle="None" 
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         Background="White" 
         Foreground="White" 
@@ -15,7 +15,7 @@
         >
     <Grid>
         <Border BorderThickness="1">
-                <Canvas x:Name="HandCanvas" Width="640" Height="480" Background="Black">
+                <Canvas x:Name="HandCanvas" Width="320" Height="240" Background="Black">
                 <StackPanel>
                     <TextBlock x:Name="ProcessName" Text="" Foreground="White"/>
                     <TextBlock x:Name="Active" Text="" Foreground="White"/>
@@ -41,6 +41,12 @@
                               IsChecked="True"
                               Checked="PanelVisible_OnChecked"
                               Unchecked="PanelVisible_OnChecked"
+                              >
+                    </MenuItem>
+                    <MenuItem x:Name="Exit" 
+                              Header="Exit" 
+                              IsCheckable="True" 
+                              Click="Exit_OnClick"
                               >
                     </MenuItem>
                 </ContextMenu>

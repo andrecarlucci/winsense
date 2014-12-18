@@ -7,7 +7,7 @@ namespace Sense.Profiles {
         public StoreApps(Dictionary<Type, Behavior> allBehaviors)
             : base(allBehaviors) {
             Add<SlideToArrowsBehavior>();
-            Add<JoinHandsToCloseAppBehavior>();
+            Add<WaveToCloseApp>();
         }
         public override string Name {
             get { return "WWAHOST"; }

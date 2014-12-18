@@ -3,6 +3,8 @@ using SharpSenses;
 using SharpSenses.Poses;
 using System;
 using System.Linq;
+using System.Threading;
+using MrWindows.KeyboardControl;
 using SharpSenses.Gestures;
 
 namespace Playground {
@@ -13,6 +15,14 @@ namespace Playground {
         static void Main(string[] args) {
             var win = new Windows();
             win.Mouse.MouseLeftClick();
+
+            //Thread.Sleep(2000);
+
+            //var p = win.CurrentWindow.GetForegroundProcess();
+            //p.Kill();
+
+            //Console.WriteLine("Done!");
+            //Environment.Exit(0);
 
             try {
                 camera = Camera.Create(CameraKind.RealSense);
