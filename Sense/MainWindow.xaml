@@ -43,9 +43,15 @@
                               Unchecked="PanelVisible_OnChecked"
                               >
                     </MenuItem>
+                    <MenuItem x:Name="RegisterCurrentUser" 
+                              Header="Register Current User" 
+                              IsCheckable="False" 
+                              Click="RegisterCurrentUser_OnClick"
+                              >
+                    </MenuItem>
                     <MenuItem x:Name="Exit" 
                               Header="Exit" 
-                              IsCheckable="True" 
+                              IsCheckable="False" 
                               Click="Exit_OnClick"
                               >
                     </MenuItem>

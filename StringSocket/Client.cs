@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StringSocket {
@@ -37,7 +34,7 @@ namespace StringSocket {
                         var msg = await _reader.ReadLineAsync();
                         OnReceived(msg);
                     }
-                    catch { }
+                    catch {}
                 }
             });
         }
@@ -47,7 +44,7 @@ namespace StringSocket {
                 await _writer.WriteLineAsync(msg);
                 await _writer.FlushAsync();
             }
-            catch { }
+            catch {}
         }
 
         public void Close() {
@@ -63,13 +60,12 @@ namespace StringSocket {
             try {
                 action.Invoke();
             }
-            catch { }
+            catch {}
         }
 
         protected virtual void OnReceived(string obj) {
             Action<string> handler = Received;
             if (handler != null) handler(obj);
         }
-
     }
 }

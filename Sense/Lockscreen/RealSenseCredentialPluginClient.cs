@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using StringSocket;
 
-namespace Sense {
+namespace Sense.Lockscreen {
     public class RealSenseCredentialPluginClient : IDisposable {
         private Server _server = new Server();
         private Client _client;

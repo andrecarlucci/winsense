@@ -13,7 +13,9 @@ using System.Windows.Threading;
 using Hardcodet.Wpf.TaskbarNotification;
 using MrWindows;
 using Sense.Behaviors;
+using Sense.Lockscreen;
 using Sense.Profiles;
+using Sense.Storage;
 using Sense.Util;
 using SharpSenses;
 
@@ -65,26 +67,8 @@ namespace Sense {
         }
 
         private void SetupWindowsLogin() {
-            _client = new RealSenseCredentialPluginClient();
-            _client.Start();
-
-            var pLeft = new Point3D();
-            var pRight = new Point3D();
-            var action = new Action<string, Point3D, Point3D>((s, p1, p2) => {
-                var x = SharpSenses.Util.MathEx.CalcDistance(p1, p2);
-                //Console.WriteLine(s + "-> x1: {0} x2: {1} Dist-> {2}", p1.X, p2.X, x);
-                if (x <= 80) {
-                    _client.Authorize().Wait();
-                }
-            });
-            _camera.LeftHand.Moved += (s, a) => {
-                pLeft = a.NewPosition.Image;
-                action.Invoke("L", pLeft, pRight);
-            };
-            _camera.RightHand.Moved += (s, a) => {
-                pRight = a.NewPosition.Image;
-                action.Invoke("R", pLeft, pRight);
-            };
+            var unlocker = new Unlocker(new RealSenseCredentialPluginClient(), _camera);
+            unlocker.Start();
         }
 
         private void StartProcessMonitor() {
@@ -113,6 +97,8 @@ namespace Sense {
         }
 
         private void SetUpFace(ICamera camera) {
+            _camera.Face.FaceRecognized += FaceOnFaceRecognized; 
+
             Task.Run(async () => {
                 while (true) {
                     await Task.Delay(1000);
@@ -218,6 +204,20 @@ namespace Sense {
 
         private void Exit_OnClick(object sender, RoutedEventArgs e) {
             Environment.Exit(0);
+        }
+
+        private void RegisterCurrentUser_OnClick(object sender, RoutedEventArgs e) {
+            _camera.Face.RecognizeFace();
+        }
+
+        private int _lastFaceId;
+
+        private void FaceOnFaceRecognized(object sender, FaceRecognizedEventArgs args) {
+            if (args.UserId == _lastFaceId) {
+                return;
+            }
+            _lastFaceId = args.UserId;
+            Config.Default.Set(ConfigKeys.UserId, args.UserId);
         }
     }
 }

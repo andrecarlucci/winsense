@@ -111,6 +111,8 @@
     <Compile Include="Behaviors\JoinHandsToCloseAppBehavior.cs" />
     <Compile Include="Behaviors\WaveToCloseApp.cs" />
     <Compile Include="Events\EventProcessor.cs" />
+    <Compile Include="Lockscreen\Locker.cs" />
+    <Compile Include="Lockscreen\Unlocker.cs" />
     <Compile Include="ProcessMonitor.cs" />
     <Compile Include="Events\SimpleTrigger.cs" />
     <Compile Include="Profiles\Chrome.cs" />
@@ -118,12 +120,15 @@
     <Compile Include="Profiles\Profile.cs" />
     <Compile Include="Profiles\ProfileManager.cs" />
     <Compile Include="Profiles\StoreApps.cs" />
+    <Compile Include="Storage\Config.cs" />
+    <Compile Include="Storage\ConfigKeys.cs" />
+    <Compile Include="Storage\IConfig.cs" />
     <Compile Include="Util\CameraToScreenMapper.cs" />
     <Compile Include="Behaviors\HandToMouseBehavior.cs" />
     <Compile Include="Behaviors\Behavior.cs" />
     <Compile Include="Behaviors\SlideToArrowsBehavior.cs" />
     <Compile Include="Behaviors\SwipeToControlTabBehavior.cs" />
-    <Compile Include="RealSenseCredentialPluginClient.cs" />
+    <Compile Include="Lockscreen\RealSenseCredentialPluginClient.cs" />
     <Compile Include="Util\Notifier.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
