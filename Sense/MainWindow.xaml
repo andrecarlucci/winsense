@@ -18,12 +18,12 @@
         AllowsTransparency="True"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel }"
         >
-    <Grid>
+    <Grid Width="458">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="320"/>
-            <ColumnDefinition Width="136"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border BorderThickness="1">
+        <Border BorderThickness="2" Background="Black">
             <ItemsControl ItemsSource="{Binding Path=Items}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -51,9 +51,18 @@
                 </StackPanel>
             </Canvas>-->
         </Border>
-        <WrapPanel Background="White" Grid.Column="1" Margin="3,3">
-            <WrapPanel.Resources>
+        <Grid Background="White" Grid.Column="1" Width="128" Height="480" Margin="3,3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="66" />
+                <RowDefinition Height="66" />
+            </Grid.RowDefinitions>
+            <Grid.Resources>
                 <Style TargetType="Grid">
+                    <Setter Property="VerticalAlignment" Value="Top"/>
                     <Setter Property="Width" Value="60"/>
                     <Setter Property="Height" Value="60"/>
                     <Setter Property="Margin" Value="3"/>
@@ -66,23 +75,24 @@
                     <Setter Property="FontWeight" Value="Bold" />
                 </Style>
                 <Style x:Key="TextLabel" TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="11" />
                     <Setter Property="VerticalAlignment" Value="Bottom" />
                     <Setter Property="Margin" Value="2,0" />
                 </Style>
-            </WrapPanel.Resources>
+            </Grid.Resources>
             <Grid>
                 <TextBlock Text="blinks" Style="{StaticResource TextLabel}"/>
                 <TextBlock Text="{Binding TotalBlinks}" Style="{StaticResource TextValue}" />
             </Grid>
-            <Grid>
+            <Grid Grid.Row="0" Grid.Column="1">
                 <TextBlock Text="blinks/min" Style="{StaticResource TextLabel}"/>
                 <TextBlock Text="{Binding BlinksPerMinute}" Style="{StaticResource TextValue}" />
             </Grid>
-            <Grid>
+            <Grid Grid.Row="1">
                 <TextBlock Text="smiles" Style="{StaticResource TextLabel}" />
-                <TextBlock Text="3000" Style="{StaticResource TextValue}" />
+                <TextBlock Text="{Binding Smiles}" Style="{StaticResource TextValue}" />
             </Grid>
-        </WrapPanel>
+        </Grid>
         
         <tb:TaskbarIcon x:Name="NotifyIcon"
           IconSource="/Assets/blue.ico"

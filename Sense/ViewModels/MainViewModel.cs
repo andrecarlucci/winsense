@@ -35,18 +35,28 @@ namespace Sense.ViewModels {
         [Magic]
         public int BlinksPerMinute { get; set; }
 
+        [Magic]
+        public int Smiles { get; set; }
+
         public MainViewModel(ICamera camera, Windows windows, ProcessMonitor processMonitor, ProfileManager profileManager) {
             _camera = camera;
             _windows = windows;
             _processMonitor = processMonitor;
             AddAllItems();
             BindBlinks();
+            BindSmiles();
             
             _processMonitor.ActiveProcessChanged += processName => {
                 Dispatcher.Run(() => CurrentProcess = processName);
             };
             profileManager.ProfileChanged += profile => {
                 Dispatcher.Run(() => CurrentProcess = profile.Name ?? "default");                
+            };
+        }
+
+        private void BindSmiles() {
+            _camera.Face.Mouth.Smiled += (sender, args) => {
+                Smiles++;
             };
         }
 
