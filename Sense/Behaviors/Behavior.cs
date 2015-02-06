@@ -1,6 +1,7 @@
 ﻿using MrWindows;
 using Sense.Util;
 using SharpSenses;
+using XamlActions;
 
 namespace Sense.Behaviors {
     public abstract class Behavior {
@@ -12,7 +13,7 @@ namespace Sense.Behaviors {
         protected object Sync = new object();
 
         protected void SendMessage(string message) {
-            Messenger.Send(message);
+            Mediator.Default.Publish(new NotifyIconMessage(message));
         }
              
         protected Behavior(Windows windows, ICamera camera) {

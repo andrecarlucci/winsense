@@ -79,12 +79,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\SharpSenses\_libs\libpxcclr.cs.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector">
-      <HintPath>..\packages\SimpleInjector.2.5.2\lib\net45\SimpleInjector.dll</HintPath>
-    </Reference>
-    <Reference Include="SimpleInjector.Diagnostics">
-      <HintPath>..\packages\SimpleInjector.2.5.2\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -102,6 +96,12 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="XamlActions">
+      <HintPath>..\packages\XamlActions.2.6.5514.108\lib\net45\XamlActions.dll</HintPath>
+    </Reference>
+    <Reference Include="XamlActions.Wpf">
+      <HintPath>..\packages\XamlActions.2.6.5514.108\lib\net45\XamlActions.Wpf.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -110,16 +110,19 @@
     </ApplicationDefinition>
     <Compile Include="Behaviors\JoinHandsToCloseAppBehavior.cs" />
     <Compile Include="Behaviors\WaveToCloseApp.cs" />
-    <Compile Include="Events\EventProcessor.cs" />
+    <Compile Include="Converters\PointXConverter.cs" />
+    <Compile Include="Converters\PointYConverter.cs" />
     <Compile Include="Lockscreen\Locker.cs" />
     <Compile Include="Lockscreen\Unlocker.cs" />
-    <Compile Include="ProcessMonitor.cs" />
+    <Compile Include="NotifyIconMessage.cs" />
+    <Compile Include="Services\ProcessMonitor.cs" />
     <Compile Include="Events\SimpleTrigger.cs" />
     <Compile Include="Profiles\Chrome.cs" />
     <Compile Include="Profiles\PowerPoint.cs" />
     <Compile Include="Profiles\Profile.cs" />
     <Compile Include="Profiles\ProfileManager.cs" />
     <Compile Include="Profiles\StoreApps.cs" />
+    <Compile Include="Services\StartCameraService.cs" />
     <Compile Include="Storage\Config.cs" />
     <Compile Include="Storage\ConfigKeys.cs" />
     <Compile Include="Storage\IConfig.cs" />
@@ -130,6 +133,8 @@
     <Compile Include="Behaviors\SwipeToControlTabBehavior.cs" />
     <Compile Include="Lockscreen\RealSenseCredentialPluginClient.cs" />
     <Compile Include="Util\Notifier.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -216,6 +221,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\KindOfMagic.1.2.5\tools\KindOfMagic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MrWindows;
 
-namespace Sense {
+namespace Sense.Services {
     public class ProcessMonitor {
         private Windows _windows;
         public string CurrentProcess { get; private set; }

@@ -1,21 +1,40 @@
-﻿using System.Windows;
+﻿using System;
 using MrWindows;
+using Sense.Services;
 using SharpSenses;
-using SimpleInjector;
+using SharpSenses.RealSense;
+using XamlActions.DI;
 
 namespace Sense {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application {
-
-        public static Container Container;
+    public partial class App {
+        public static Windows MrWindows;
+        public static ProcessMonitor ProcessMonitor;
 
         static App() {
-            Container = new Container();
-            Container.Register<Windows>(Lifestyle.Singleton);
-            Container.Register(() =>  Camera.Create(CameraKind.RealSense), Lifestyle.Singleton);
-            Container.Register<ProcessMonitor>(Lifestyle.Singleton);
+            var camera = Camera.Create(CameraKind.RealSense);
+            MrWindows = new Windows();
+            ProcessMonitor = new ProcessMonitor(MrWindows);
+            ProcessMonitor.Start();
+            ServiceLocator.Default.Register(camera);
+            ServiceLocator.Default.Register(MrWindows);
+            ServiceLocator.Default.Register(ProcessMonitor);
+
+            var findCamera = new StartCameraService(camera);
+            findCamera.StartAsync();
+        }
+
+        public App() {
+            DispatcherUnhandledException += CurrentOnExit;
+            Exit += CurrentOnExit;
+        }
+
+        private static void CurrentOnExit(object sender, EventArgs exitEventArgs) {
+            if (Sense.MainWindow.TaskbarIcon != null) {
+                Sense.MainWindow.TaskbarIcon.Icon = null;
+                Sense.MainWindow.TaskbarIcon.Dispose();
+            }
         }
     }
+    class MagicAttribute : Attribute { }
+    class NoMagicAttribute : Attribute { }
 }

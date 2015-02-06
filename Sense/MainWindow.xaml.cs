@@ -15,9 +15,11 @@ using MrWindows;
 using Sense.Behaviors;
 using Sense.Lockscreen;
 using Sense.Profiles;
+using Sense.Services;
 using Sense.Storage;
 using Sense.Util;
 using SharpSenses;
+using XamlActions;
 
 namespace Sense {
     public partial class MainWindow : Window {
@@ -29,73 +31,46 @@ namespace Sense {
         private bool _faceMonitorActive;
         private DateTime _faceLastSeen;
 
-        public int Width = 320;
-        public int Height = 240;
+        public static int MyWidth = 320;
+        public static int MyHeight = 240;
+
+        public static TaskbarIcon TaskbarIcon;
 
         public MainWindow() {
             InitializeComponent();
-            Left = SystemParameters.PrimaryScreenWidth - Width - 25;
-            Top = SystemParameters.PrimaryScreenHeight - Height - 25;
+            Left = SystemParameters.PrimaryScreenWidth - MyWidth - 150;
+            Top = SystemParameters.PrimaryScreenHeight - MyHeight - 40;
             Item.DefaultNoiseThreshold = 2;
+            TaskbarIcon = NotifyIcon;
+            Mediator.Default.Subscribe<NotifyIconMessage>(this, ShowNotifyIconMessage);
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e) {
-            _win = App.Container.GetInstance<Windows>();
-            StartProcessMonitor();
-            Messenger.NewMesssage += s => {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
-                    Message.Text = s
-                ));
-            };
-            _camera = await FindCamera();
-            StartCamera();
+        private void ShowNotifyIconMessage(NotifyIconMessage message) {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                NotifyIcon.ShowBalloonTip(message.Title, message.Text, message.BalloonIcon)
+            ));
         }
 
         private void StartCamera() {
-            ProfileManager.Init(_camera, _win, _processMonitor);
-            ProfileManager.ProfileChanged += p => {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
-                    Active.Text = p != null ? p.Name : "default"
-                ));
-            };
-            SetUpHand(_camera.RightHand);
-            SetUpHand(_camera.LeftHand);
-            SetUpFace(_camera);
+            //ProfileManager.Init(_camera, _win, _processMonitor);
+            //ProfileManager.ProfileChanged += p => {
+            //    Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            //        Active.Text = p != null ? p.Name : "default"
+            //    ));
+            //};
+            //SetUpHand(_camera.RightHand);
+            //SetUpHand(_camera.LeftHand);
+            //SetUpFace(_camera);
 
-            SetupWindowsLogin();
-            ShowMessage("Camera Started");
+            //SetupWindowsLogin();
+            //ShowMessage("Camera Started");
         }
 
         private void SetupWindowsLogin() {
             var unlocker = new Unlocker(new RealSenseCredentialPluginClient(), _camera);
             unlocker.Start();
         }
-
-        private void StartProcessMonitor() {
-            _processMonitor = App.Container.GetInstance<ProcessMonitor>();
-            _processMonitor.ActiveProcessChanged += processName => 
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
-                    ProcessName.Text = processName;
-                })
-            );
-            _processMonitor.Start();
-        }
-
-        private async Task<ICamera> FindCamera() {
-            while (true) {
-                var camera = App.Container.GetInstance<ICamera>();
-                try {
-                    camera.Start();
-                    ShowMessage("RealSense Camera Started");
-                    return camera;
-                }
-                catch (CameraException) {
-                    ShowMessage("Please, connect the RealSense Camera");
-                }
-                await Task.Delay(TimeSpan.FromSeconds(5));
-            }
-        }
-
+       
         private void SetUpFace(ICamera camera) {
             _camera.Face.FaceRecognized += FaceOnFaceRecognized; 
 
@@ -155,6 +130,7 @@ namespace Sense {
 
         protected override void OnClosed(EventArgs e) {
             base.OnClosed(e);
+            NotifyIcon.Icon = null;
             NotifyIcon.Dispose();
         }
 
@@ -167,7 +143,7 @@ namespace Sense {
                 Color color = part.IsVisible ? Color.FromArgb(100, 100, 200, 100) : Colors.Transparent;
                 ellipse.Fill = new SolidColorBrush(color);
 
-                var p = CameraToScreenMapper.MapToScreen(part.Position.Image, Width, Height);
+                var p = CameraToScreenMapper.MapToScreen(part.Position.Image, MyWidth, MyHeight);
                 if (p.X < 0) {
                     p.X = 0;
                 }
@@ -184,7 +160,7 @@ namespace Sense {
                 Height = size
             };
             _parts.Add(part, shape);
-            HandCanvas.Children.Add(shape);
+            //HandCanvas.Children.Add(shape);
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
@@ -203,7 +179,7 @@ namespace Sense {
         }
 
         private void Exit_OnClick(object sender, RoutedEventArgs e) {
-            Environment.Exit(0);
+            Close();
         }
 
         private void RegisterCurrentUser_OnClick(object sender, RoutedEventArgs e) {

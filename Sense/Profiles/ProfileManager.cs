@@ -4,19 +4,29 @@ using System.Linq;
 using System.Reflection;
 using MrWindows;
 using Sense.Behaviors;
+using Sense.Services;
 using SharpSenses;
 
 namespace Sense.Profiles {
-    public static class ProfileManager {
+    public class ProfileManager {
+        private readonly ICamera _camera;
+        private readonly Windows _windows;
+        private readonly ProcessMonitor _processMonitor;
 
-        public static event Action<Profile> ProfileChanged;
-        public static Profile Current;
+        public event Action<Profile> ProfileChanged;
+        public Profile Current;
 
-        public static void Init(ICamera camera, Windows windows, ProcessMonitor processMonitor) {
-            var behaviors = CreateAll<Behavior>(windows, camera);
+        public ProfileManager(ICamera camera, Windows windows, ProcessMonitor processMonitor) {
+            _camera = camera;
+            _windows = windows;
+            _processMonitor = processMonitor;
+        }
+
+        public void Start() {
+            var behaviors = CreateAll<Behavior>(_windows, _camera);
             var profiles = CreateAll<Profile>(behaviors.ToDictionary(b => b.GetType(), b => b));
 
-            processMonitor.ActiveProcessChanged += processName => {
+            _processMonitor.ActiveProcessChanged += processName => {
                 var profile = profiles.FirstOrDefault(p => p.Name.ToUpper() == processName.ToUpper());
                 if (Current != null) {
                     Current.Deactivate();
@@ -35,7 +45,7 @@ namespace Sense.Profiles {
             return types.Select(type => ((T)Activator.CreateInstance(type, pars))).ToList();
         }
 
-        private static void OnProfileChanged(Profile profile) {
+        private void OnProfileChanged(Profile profile) {
             var handler = ProfileChanged;
             if (handler != null) handler(profile);
         }

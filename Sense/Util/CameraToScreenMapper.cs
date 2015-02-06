@@ -49,6 +49,14 @@ namespace Sense.Util {
             return new Point(left, top);
         }
 
+        public static double MapXToScreen(double x, int screenWidth) {
+            return (int)(screenWidth - (x / 500) * screenWidth);
+        }
+
+        public static double MapYToScreen(double y, int screenHeight) {
+            return (int)((y / 400) * screenHeight);
+        }
+
         private bool IsNoise(Point newPosition) {
             return false;
             //return MathEx.CalcDistance(_lastPosition, newPosition) <= 10;
