@@ -4,11 +4,12 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:viewModels="clr-namespace:Sense.ViewModels"
         xmlns:actions="clr-namespace:XamlActions.Actions;assembly=XamlActions.Wpf"
+        xmlns:converters="clr-namespace:Sense.Converters"
         Topmost="True"
         Title="MainWindow" 
         WindowStartupLocation="Manual" 
         Left="0" Top="0"
-        Height="240" Width="458" 
+        Width="440" Height="240"
         ResizeMode="NoResize" 
         Opacity="0.6" 
         WindowStyle="None" 
@@ -18,66 +19,61 @@
         AllowsTransparency="True"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel }"
         >
-    <Grid Width="458">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="320"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Border BorderThickness="2" Background="Black">
-            <ItemsControl ItemsSource="{Binding Path=Items}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas Width="320" Height="240" Background="Black" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Ellipse Fill="CornflowerBlue" Width="5" Height="5" Visibility="{Binding Path=IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemContainerStyle>
-                    <Style>
-                        <Setter Property="Canvas.Top" Value="{Binding Path=Position.Image.Y, Converter={StaticResource PointYConverter}}" />
-                        <Setter Property="Canvas.Left" Value="{Binding Path=Position.Image.X, Converter={StaticResource PointXConverter}}" />
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
-            </ItemsControl>
 
-            <!--<Canvas x:Name="HandCanvas" Width="320" Height="240" Background="Black">
-                <StackPanel>
-                    <TextBlock x:Name="ProcessName" Text="" Foreground="White"/>
-                    <TextBlock x:Name="Active" Text="" Foreground="White"/>
-                    <TextBlock x:Name="Message" Text="" Foreground="White"/>
-                </StackPanel>
-            </Canvas>-->
-        </Border>
-        <Grid Background="White" Grid.Column="1" Width="128" Height="480" Margin="3,3">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <ItemsControl ItemsSource="{Binding Path=Items}" VerticalAlignment="Top">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Width="320" Height="240" Background="Black" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Ellipse Fill="CornflowerBlue" Width="5" Height="5" Visibility="{Binding Path=IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Canvas.Top" Value="{Binding Path=Position.Image.Y, Converter={StaticResource PointYConverter}}" />
+                    <Setter Property="Canvas.Left" Value="{Binding Path=Position.Image.X, Converter={StaticResource PointXConverter}}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+
+
+        <Grid Background="White" Grid.Column="1" Width="Auto" Height="240" Margin="2,0,0,0" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="58" />
+                <ColumnDefinition Width="58" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="66" />
-                <RowDefinition Height="66" />
+                <RowDefinition Height="58" />
+                <RowDefinition Height="58" />
+                <RowDefinition Height="58" />
+                <RowDefinition Height="58" />
             </Grid.RowDefinitions>
             <Grid.Resources>
                 <Style TargetType="Grid">
                     <Setter Property="VerticalAlignment" Value="Top"/>
-                    <Setter Property="Width" Value="60"/>
-                    <Setter Property="Height" Value="60"/>
-                    <Setter Property="Margin" Value="3"/>
+                    <Setter Property="Width" Value="56"/>
+                    <Setter Property="Height" Value="56"/>
+                    <Setter Property="Margin" Value="1"/>
                     <Setter Property="Background" Value="Gray"/>
                 </Style>
                 <Style x:Key="TextValue" TargetType="TextBlock">
                     <Setter Property="HorizontalAlignment" Value="Center" />
                     <Setter Property="VerticalAlignment" Value="Center" />
-                    <Setter Property="FontSize" Value="18" />
+                    <Setter Property="FontSize" Value="14" />
                     <Setter Property="FontWeight" Value="Bold" />
                 </Style>
                 <Style x:Key="TextLabel" TargetType="TextBlock">
-                    <Setter Property="FontSize" Value="11" />
+                    <Setter Property="FontSize" Value="10" />
                     <Setter Property="VerticalAlignment" Value="Bottom" />
-                    <Setter Property="Margin" Value="2,0" />
+                    <Setter Property="Margin" Value="2" />
                 </Style>
             </Grid.Resources>
             <Grid>
@@ -88,14 +84,32 @@
                 <TextBlock Text="blinks/min" Style="{StaticResource TextLabel}"/>
                 <TextBlock Text="{Binding BlinksPerMinute}" Style="{StaticResource TextValue}" />
             </Grid>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Grid.Column="0">
                 <TextBlock Text="smiles" Style="{StaticResource TextLabel}" />
                 <TextBlock Text="{Binding Smiles}" Style="{StaticResource TextValue}" />
             </Grid>
+            <!--<Grid Grid.Row="1" Grid.Column="1">
+                <TextBlock Text="yawns" Style="{StaticResource TextLabel}" />
+                <TextBlock Text="{Binding Smiles}" Style="{StaticResource TextValue}" />
+            </Grid>-->
+            <Grid Grid.Row="2" Grid.Column="0">
+                <Image Width="32" Height="32" Source="Assets/adduser2.png"
+                       Visibility="{Binding Path=AddUserIconVisible, Converter={StaticResource BooleanToVisibilityConverter}}" /> 
+                <Image Width="32" Height="32" Source="Assets/user2.png" 
+                       Visibility="{Binding Path=UserIconVisible, Converter={StaticResource BooleanToVisibilityConverter}}" /> 
+                <TextBlock Text="user" Style="{StaticResource TextLabel}" />
+                <TextBlock Text="{Binding Username}" Style="{StaticResource TextValue}" />
+            </Grid>
+            <Grid Grid.Row="2" Grid.Column="1">
+                <Image Width="32" Height="32"
+                       Source="{Binding Converter={StaticResource ImageConverter}, Path=CurrentProfile}"></Image>
+                <TextBlock Text="profile" Style="{StaticResource TextLabel}" />
+            </Grid>
+            
         </Grid>
-        
+
         <tb:TaskbarIcon x:Name="NotifyIcon"
-          IconSource="/Assets/blue.ico"
+          IconSource="Assets/blue.ico"
           ToolTipText="Control de World!">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>

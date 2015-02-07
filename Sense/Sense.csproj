@@ -109,7 +109,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Behaviors\JoinHandsToCloseAppBehavior.cs" />
+    <Compile Include="Behaviors\LookDownForScrollDown.cs" />
     <Compile Include="Behaviors\WaveToCloseApp.cs" />
+    <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\PointXConverter.cs" />
     <Compile Include="Converters\PointYConverter.cs" />
     <Compile Include="Lockscreen\Locker.cs" />
@@ -179,8 +181,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\user2.png" />
     <Resource Include="Assets\black.ico" />
     <Resource Include="Assets\blue.ico" />
+    <Resource Include="Assets\user.png" />
+    <Resource Include="Assets\adduser2.png" />
+    <Resource Include="Assets\chrome.png" />
+    <Content Include="Assets\powerpnt.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Assets\WWAHOST.png" />
+    <Resource Include="Assets\adduser.png" />
     <Content Include="Assets\robot.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

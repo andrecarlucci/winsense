@@ -22,21 +22,23 @@ namespace Sense.ViewModels {
         private List<DateTime> _lastBlinks = new List<DateTime>();
 
         public ObservableCollection<Item> Items { get; set; }
-
         [Magic]
         public string CurrentProcess { get; set; }
-
         [Magic]
         public string CurrentProfile { get; set; }
-
         [Magic]
         public int TotalBlinks { get; set; }
-
         [Magic]
         public int BlinksPerMinute { get; set; }
-
         [Magic]
         public int Smiles { get; set; }
+        [Magic]
+        public string Username { get; set; }
+        [Magic]
+        public bool AddUserIconVisible { get; set; }
+        [Magic]
+        public bool UserIconVisible { get; set; }
+
 
         public MainViewModel(ICamera camera, Windows windows, ProcessMonitor processMonitor, ProfileManager profileManager) {
             _camera = camera;
@@ -45,13 +47,28 @@ namespace Sense.ViewModels {
             AddAllItems();
             BindBlinks();
             BindSmiles();
+            SetUserRegistered(false);
             
             _processMonitor.ActiveProcessChanged += processName => {
                 Dispatcher.Run(() => CurrentProcess = processName);
             };
             profileManager.ProfileChanged += profile => {
-                Dispatcher.Run(() => CurrentProcess = profile.Name ?? "default");                
+                string name;
+                if (profile == null) {
+                    name = "default";
+                }
+                else {
+                    name = profile.Name;
+                }
+                Dispatcher.Run(() => CurrentProfile = name);                
             };
+        }
+
+        private void SetUserRegistered(bool registered) {
+            if (registered) {
+                UserIconVisible = true;
+            }
+            AddUserIconVisible = !UserIconVisible;
         }
 
         private void BindSmiles() {

@@ -10,9 +10,9 @@ namespace Sense.Behaviors {
         private Pose _joinHands;
 
         public JoinHandsToCloseAppBehavior(Windows windows, ICamera camera) : base(windows, camera) {
-            //_joinHands = PoseBuilder.Create()
-            //    .ShouldBeNear(camera.LeftHand, camera.RightHand, 100)
-            //    .Build();
+            _joinHands = PoseBuilder.Create()
+                .ShouldBeNear(camera.LeftHand, camera.RightHand, 100)
+                .Build();
         }
 
         public override string Name {

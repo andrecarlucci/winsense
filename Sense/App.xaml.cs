@@ -1,5 +1,6 @@
 ﻿using System;
 using MrWindows;
+using Sense.Profiles;
 using Sense.Services;
 using SharpSenses;
 using SharpSenses.RealSense;
@@ -18,6 +19,10 @@ namespace Sense {
             ServiceLocator.Default.Register(camera);
             ServiceLocator.Default.Register(MrWindows);
             ServiceLocator.Default.Register(ProcessMonitor);
+
+            var profileManager = new ProfileManager(camera, MrWindows, ProcessMonitor);
+            ServiceLocator.Default.Register(profileManager);
+            profileManager.Start();
 
             var findCamera = new StartCameraService(camera);
             findCamera.StartAsync();

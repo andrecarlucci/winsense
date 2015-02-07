@@ -9,5 +9,9 @@
         <converters:PointYConverter x:Key="PointYConverter" />
         <converters:PointXConverter x:Key="PointXConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:ImageConverter x:Key="ImageConverter" />
+
+        <BitmapImage x:Key="AdduserImage" UriSource="Assets/adduser.png" />
+        <BitmapImage x:Key="UserImage" UriSource="Assets/user.png" />
     </Application.Resources>
 </Application>
