@@ -5,25 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using MrWindows;
 using SharpSenses;
+using MrWindows.KeyboardControl;
 
 namespace Sense.Behaviors {
-    public class LookDownForScrollDown : Behavior {
-        public LookDownForScrollDown(Windows windows, ICamera camera) : base(windows, camera) {}
+    public class DoubleBlinkForScrollDown : Behavior {
+        public DoubleBlinkForScrollDown(Windows windows, ICamera camera) : base(windows, camera) {}
 
         public override string Name {
-            get { return "LookDownForScrollDown"; }
+            get { return "DoubleBlinkForScrollDown"; }
         }
 
         public override void Activate() {
-            Camera.Face.EyesDirectionChanged += ScrollDown;
+            Camera.Face.LeftEye.DoubleBlink += ScrollDown;
         }
 
-        private void ScrollDown(object sender, DirectionEventArgs directionEventArgs) {
-            Windows.Mouse.ScrollVertically(-100);
+        private void ScrollDown(object sender, EventArgs directionEventArgs) {
+            Windows.Keyboard.Type(VirtualKey.Next);
+            //Windows.Mouse.ScrollVertically(-200);
         }
 
         public override void Deactivate() {
-            Camera.Face.EyesDirectionChanged -= ScrollDown;            
+            Camera.Face.LeftEye.DoubleBlink -= ScrollDown;     
         }
     }
 }

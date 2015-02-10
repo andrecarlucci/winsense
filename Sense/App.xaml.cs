@@ -1,5 +1,6 @@
 ﻿using System;
 using MrWindows;
+using Sense.Lockscreen;
 using Sense.Profiles;
 using Sense.Services;
 using SharpSenses;
@@ -12,6 +13,7 @@ namespace Sense {
         public static ProcessMonitor ProcessMonitor;
 
         static App() {
+            Item.DefaultNoiseThreshold = 2;
             var camera = Camera.Create(CameraKind.RealSense);
             MrWindows = new Windows();
             ProcessMonitor = new ProcessMonitor(MrWindows);
@@ -26,6 +28,9 @@ namespace Sense {
 
             var findCamera = new StartCameraService(camera);
             findCamera.StartAsync();
+
+            var unlocker = new Unlocker(new RealSenseCredentialPluginClient(), camera);
+            unlocker.Start();
         }
 
         public App() {

@@ -7,7 +7,7 @@ namespace Sense.Profiles {
         public Chrome(Dictionary<Type, Behavior> allBehaviors) : base(allBehaviors) {
             Add<SlideToControlTabBehavior>();
             Add<HandToMouseBehavior>();
-            Add<LookDownForScrollDown>();
+            Add<DoubleBlinkForScrollDown>();
         }
 
         public override string Name {

@@ -111,6 +111,7 @@
     <Compile Include="Behaviors\JoinHandsToCloseAppBehavior.cs" />
     <Compile Include="Behaviors\LookDownForScrollDown.cs" />
     <Compile Include="Behaviors\WaveToCloseApp.cs" />
+    <Compile Include="Bob\SpeechService.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\PointXConverter.cs" />
     <Compile Include="Converters\PointYConverter.cs" />

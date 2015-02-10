@@ -23,13 +23,8 @@ using XamlActions;
 
 namespace Sense {
     public partial class MainWindow : Window {
-        private Windows _win;
-        private ICamera _camera;
-        private RealSenseCredentialPluginClient _client;
 
-        private ProcessMonitor _processMonitor;
-        private bool _faceMonitorActive;
-        private DateTime _faceLastSeen;
+        
 
         public static int MyWidth = 320;
         public static int MyHeight = 240;
@@ -40,7 +35,6 @@ namespace Sense {
             InitializeComponent();
             Left = SystemParameters.PrimaryScreenWidth - MyWidth - 150;
             Top = SystemParameters.PrimaryScreenHeight - MyHeight - 40;
-            Item.DefaultNoiseThreshold = 2;
             TaskbarIcon = NotifyIcon;
             Mediator.Default.Subscribe<NotifyIconMessage>(this, ShowNotifyIconMessage);
         }
@@ -64,11 +58,6 @@ namespace Sense {
 
             //SetupWindowsLogin();
             //ShowMessage("Camera Started");
-        }
-
-        private void SetupWindowsLogin() {
-            var unlocker = new Unlocker(new RealSenseCredentialPluginClient(), _camera);
-            unlocker.Start();
         }
        
         private void SetUpFace(ICamera camera) {
@@ -184,16 +173,6 @@ namespace Sense {
 
         private void RegisterCurrentUser_OnClick(object sender, RoutedEventArgs e) {
             _camera.Face.RecognizeFace();
-        }
-
-        private int _lastFaceId;
-
-        private void FaceOnFaceRecognized(object sender, FaceRecognizedEventArgs args) {
-            if (args.UserId == _lastFaceId) {
-                return;
-            }
-            _lastFaceId = args.UserId;
-            Config.Default.Set(ConfigKeys.UserId, args.UserId);
         }
     }
 }
