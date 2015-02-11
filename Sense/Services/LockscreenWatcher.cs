@@ -19,13 +19,11 @@ namespace Sense.Services {
         public void Start() {
             _camera.Face.FaceRecognized += FaceOnFaceRecognized;
             _camera.Face.Visible += (s, a) => {
-                CurrentUserId = 0;
                 LastSeen = DateTime.Now;
                 Debug.WriteLine("Face visible");
             };
             _camera.Face.NotVisible += (s, a) => {
                 LastSeen = DateTime.Now;
-                CurrentUserId = -1;
                 Debug.WriteLine("Face not visible");
             };
         }

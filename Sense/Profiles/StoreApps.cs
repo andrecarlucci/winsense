@@ -8,6 +8,7 @@ namespace Sense.Profiles {
             : base(allBehaviors) {
             Add<SlideToArrowsBehavior>();
             Add<WaveToCloseApp>();
+            Add<LookToAllDirectionsToArrows>();
         }
         public override string Name {
             get { return "WWAHOST"; }

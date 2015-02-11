@@ -25,7 +25,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <ItemsControl ItemsSource="{Binding Path=Items}" VerticalAlignment="Top">
+        <ItemsControl ItemsSource="{Binding Path=Items}" VerticalAlignment="Top" MouseDoubleClick="ItemsControl_MouseDoubleClick">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas Width="320" Height="240" Background="Black" />
@@ -93,12 +93,19 @@
                 <TextBlock Text="{Binding Smiles}" Style="{StaticResource TextValue}" />
             </Grid>-->
             <Grid Grid.Row="2" Grid.Column="0">
-                <Image Width="32" Height="32" Source="Assets/adduser2.png"
-                       Visibility="{Binding Path=AddUserIconVisible, Converter={StaticResource BooleanToVisibilityConverter}}" /> 
-                <Image Width="32" Height="32" Source="Assets/user2.png" 
-                       Visibility="{Binding Path=UserIconVisible, Converter={StaticResource BooleanToVisibilityConverter}}" /> 
-                <TextBlock Text="user" Style="{StaticResource TextLabel}" />
-                <TextBlock Text="{Binding Username}" Style="{StaticResource TextValue}" />
+                <Button>
+                    <actions:Events.Mappings>
+                        <actions:Map Event="Click" ToMethod="RecognizeUser" />
+                    </actions:Events.Mappings>
+                    <Grid>
+                        <Image Width="32" Height="32" Margin="0,0,0,12" Source="Assets/adduser2.png"
+                                /> 
+                        <!--<Image Width="32" Height="32" Source="Assets/user2.png" 
+                               Visibility="{Binding Path=UserIconVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />--> 
+                        <TextBlock Margin="2,0,0,6" Text="user" Style="{StaticResource TextLabel}" />
+                        <TextBlock Text="{Binding Username}" Style="{StaticResource TextValue}" />
+                    </Grid>
+                </Button>
             </Grid>
             <Grid Grid.Row="2" Grid.Column="1">
                 <Image Width="32" Height="32"
@@ -110,7 +117,7 @@
 
         <tb:TaskbarIcon x:Name="NotifyIcon"
           IconSource="Assets/blue.ico"
-          ToolTipText="Control de World!">
+          ToolTipText="Control de World!" TrayMouseDoubleClick="NotifyIcon_TrayMouseDoubleClick">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem x:Name="LockScreenMonitor" 
@@ -129,7 +136,7 @@
                               >
                     </MenuItem>
                     <MenuItem x:Name="RegisterCurrentUser" 
-                              Header="Register Current User" 
+                              Header="Register Current Username" 
                               IsCheckable="False" 
                               Click="RegisterCurrentUser_OnClick"
                               >
@@ -144,7 +151,4 @@
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>
     </Grid>
-    <actions:Events.Mappings>
-        <actions:Map Event="Loaded" ToMethod="Loaded" />
-    </actions:Events.Mappings>
 </Window>

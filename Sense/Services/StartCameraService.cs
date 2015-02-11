@@ -11,8 +11,8 @@ namespace Sense.Services {
             _camera = camera;
         }
 
-        public void StartAsync() {
-            Task.Run(async () => {
+        public async Task StartAsync() {
+            await Task.Run(async () => {
                 while (true) {
                     try {
                         _camera.Start();

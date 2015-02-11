@@ -8,18 +8,21 @@ using System.Windows.Threading;
 using MrWindows;
 using Sense.Profiles;
 using Sense.Services;
+using Sense.Storage;
 using Sense.Util;
 using SharpSenses;
 using XamlActions;
 
 namespace Sense.ViewModels {
     public class MainViewModel : ViewModelBase {
-        private static object _sync = new object();
+        private static readonly object _sync = new object();
         private readonly ICamera _camera;
         private readonly Windows _windows;
         private readonly ProcessMonitor _processMonitor;
+        private readonly UserWatcher _userWatcher;
 
-        private List<DateTime> _lastBlinks = new List<DateTime>();
+        private readonly List<DateTime> _lastBlinks = new List<DateTime>();
+        private string _username;
 
         public ObservableCollection<Item> Items { get; set; }
         [Magic]
@@ -34,41 +37,32 @@ namespace Sense.ViewModels {
         public int Smiles { get; set; }
         [Magic]
         public string Username { get; set; }
-        [Magic]
-        public bool AddUserIconVisible { get; set; }
-        [Magic]
-        public bool UserIconVisible { get; set; }
-
-
-        public MainViewModel(ICamera camera, Windows windows, ProcessMonitor processMonitor, ProfileManager profileManager) {
+        public MainViewModel(ICamera camera, 
+                             Windows windows, 
+                             ProcessMonitor processMonitor, 
+                             ProfileManager profileManager,
+                             UserWatcher userWatcher) {
             _camera = camera;
             _windows = windows;
             _processMonitor = processMonitor;
+            _userWatcher = userWatcher;
             AddAllItems();
             BindBlinks();
             BindSmiles();
-            SetUserRegistered(false);
+            
+            Mediator.Default.Subscribe<UserChangedMessage>(this, message => Username = message.Value);
             
             _processMonitor.ActiveProcessChanged += processName => {
                 Dispatcher.Run(() => CurrentProcess = processName);
             };
             profileManager.ProfileChanged += profile => {
-                string name;
-                if (profile == null) {
-                    name = "default";
-                }
-                else {
-                    name = profile.Name;
-                }
-                Dispatcher.Run(() => CurrentProfile = name);                
+                var name = profile == null ? "default" : profile.Name;
+                Dispatcher.Run(() => CurrentProfile = name);
             };
         }
 
-        private void SetUserRegistered(bool registered) {
-            if (registered) {
-                UserIconVisible = true;
-            }
-            AddUserIconVisible = !UserIconVisible;
+        public void RecognizeUser() {
+            _userWatcher.RecognizeUser();
         }
 
         private void BindSmiles() {
@@ -104,6 +98,15 @@ namespace Sense.ViewModels {
             AddItems(_camera.RightHand);
             AddItems(_camera.RightHand.GetAllFingers().SelectMany(f => f.GetAllJoints()).ToArray());
             AddItems(_camera.RightHand.GetAllFingers().Cast<Item>().ToArray());
+            AddItems(_camera.Face);
+            Task.Run(async () => {
+                while (true) {
+                    await Task.Delay(2000);
+                    foreach (var item in Items) {
+                        item.IsVisible = false;
+                    }                    
+                }
+            });
         }
        
         private void AddItems(params Item[] items) {
@@ -111,20 +114,5 @@ namespace Sense.ViewModels {
                 Items.Add(item);                
             }
         }
-
-        public void Loaded() {
-            StartCamera();
-        }
-
-        private void StartCamera() {
-            //SetUpHand(_camera.RightHand);
-            //SetUpHand(_camera.LeftHand);
-            //SetUpFace(_camera);
-
-            //SetupWindowsLogin();
-            //ShowMessage("Camera Started");
-        }
-
-        
     }
 }

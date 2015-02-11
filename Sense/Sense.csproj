@@ -79,6 +79,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\SharpSenses\_libs\libpxcclr.cs.dll</HintPath>
     </Reference>
+    <Reference Include="Ookii.Dialogs.Wpf">
+      <HintPath>..\packages\Ookii.Dialogs.1.0\lib\net35\Ookii.Dialogs.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -111,7 +114,18 @@
     <Compile Include="Behaviors\JoinHandsToCloseAppBehavior.cs" />
     <Compile Include="Behaviors\LookDownForScrollDown.cs" />
     <Compile Include="Behaviors\WaveToCloseApp.cs" />
-    <Compile Include="Bob\SpeechService.cs" />
+    <Compile Include="Bob\ISubject.cs" />
+    <Compile Include="Bob\LockTheScreen.cs" />
+    <Compile Include="Bob\MoveActions.cs" />
+    <Compile Include="Bob\ScrollActions.cs" />
+    <Compile Include="Bob\StringExtensions.cs" />
+    <Compile Include="Controls\InputDialog.xaml.cs">
+      <DependentUpon>InputDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Bob\MrBob.cs" />
+    <Compile Include="Services\LockscreenWatcher.cs" />
+    <Compile Include="Services\SpeechService.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\PointXConverter.cs" />
     <Compile Include="Converters\PointYConverter.cs" />
@@ -126,6 +140,8 @@
     <Compile Include="Profiles\ProfileManager.cs" />
     <Compile Include="Profiles\StoreApps.cs" />
     <Compile Include="Services\StartCameraService.cs" />
+    <Compile Include="Services\UserChangedMessage.cs" />
+    <Compile Include="Services\UserWatcher.cs" />
     <Compile Include="Storage\Config.cs" />
     <Compile Include="Storage\ConfigKeys.cs" />
     <Compile Include="Storage\IConfig.cs" />
@@ -135,9 +151,15 @@
     <Compile Include="Behaviors\SlideToArrowsBehavior.cs" />
     <Compile Include="Behaviors\SwipeToControlTabBehavior.cs" />
     <Compile Include="Lockscreen\RealSenseCredentialPluginClient.cs" />
+    <Compile Include="Util\IInputService.cs" />
+    <Compile Include="Util\InputService.cs" />
     <Compile Include="Util\Notifier.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Page Include="Controls\InputDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -232,6 +254,7 @@
       <Name>StringSocket</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\KindOfMagic.1.2.5\tools\KindOfMagic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
