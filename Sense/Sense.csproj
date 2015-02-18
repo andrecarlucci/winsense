@@ -70,6 +70,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Assets\blue.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -113,23 +116,35 @@
     </ApplicationDefinition>
     <Compile Include="Behaviors\JoinHandsToCloseAppBehavior.cs" />
     <Compile Include="Behaviors\LookDownForScrollDown.cs" />
-    <Compile Include="Behaviors\WaveToCloseApp.cs" />
+    <Compile Include="Behaviors\LookToAllDirectionsToArrows.cs" />
+    <Compile Include="Bob\ClickActions.cs" />
+    <Compile Include="Bob\CloseThisApp.cs" />
+    <Compile Include="Bob\GoogleThis.cs" />
+    <Compile Include="Bob\Hello.cs" />
     <Compile Include="Bob\ISubject.cs" />
     <Compile Include="Bob\LockTheScreen.cs" />
     <Compile Include="Bob\MoveActions.cs" />
+    <Compile Include="Bob\NiceToMeetYou.cs" />
+    <Compile Include="Bob\OpenApp.cs" />
+    <Compile Include="Bob\SayBye.cs" />
     <Compile Include="Bob\ScrollActions.cs" />
     <Compile Include="Bob\StringExtensions.cs" />
+    <Compile Include="Bob\ThankYou.cs" />
+    <Compile Include="Bob\WhatsYourName.cs" />
+    <Compile Include="Bob\WhatTimeIsIt.cs" />
     <Compile Include="Controls\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ColorConverter.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Bob\MrBob.cs" />
+    <Compile Include="RunHelper.cs" />
+    <Compile Include="Services\LockscreenEnabledMessage.cs" />
     <Compile Include="Services\LockscreenWatcher.cs" />
     <Compile Include="Services\SpeechService.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\PointXConverter.cs" />
     <Compile Include="Converters\PointYConverter.cs" />
-    <Compile Include="Lockscreen\Locker.cs" />
     <Compile Include="Lockscreen\Unlocker.cs" />
     <Compile Include="NotifyIconMessage.cs" />
     <Compile Include="Services\ProcessMonitor.cs" />
@@ -142,9 +157,7 @@
     <Compile Include="Services\StartCameraService.cs" />
     <Compile Include="Services\UserChangedMessage.cs" />
     <Compile Include="Services\UserWatcher.cs" />
-    <Compile Include="Storage\Config.cs" />
-    <Compile Include="Storage\ConfigKeys.cs" />
-    <Compile Include="Storage\IConfig.cs" />
+    <Compile Include="Storage\WinSenseConfig.cs" />
     <Compile Include="Util\CameraToScreenMapper.cs" />
     <Compile Include="Behaviors\HandToMouseBehavior.cs" />
     <Compile Include="Behaviors\Behavior.cs" />
@@ -154,6 +167,7 @@
     <Compile Include="Util\IInputService.cs" />
     <Compile Include="Util\InputService.cs" />
     <Compile Include="Util\Notifier.cs" />
+    <Compile Include="Util\Try.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Page Include="Controls\InputDialog.xaml">
@@ -204,6 +218,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\user3.png" />
     <Resource Include="Assets\user2.png" />
     <Resource Include="Assets\black.ico" />
     <Resource Include="Assets\blue.ico" />
@@ -215,6 +230,7 @@
     </Content>
     <Resource Include="Assets\WWAHOST.png" />
     <Resource Include="Assets\adduser.png" />
+    <Resource Include="Assets\radar.png" />
     <Content Include="Assets\robot.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 using System.Windows.Threading;
 using MrWindows;
 using Sense.Profiles;
@@ -11,6 +12,7 @@ using Sense.Services;
 using Sense.Storage;
 using Sense.Util;
 using SharpSenses;
+using SharpSenses.Gestures;
 using XamlActions;
 
 namespace Sense.ViewModels {
@@ -35,8 +37,25 @@ namespace Sense.ViewModels {
         public int BlinksPerMinute { get; set; }
         [Magic]
         public int Smiles { get; set; }
+
+        [Magic]
+        public int Yawms { get; set; }
+
         [Magic]
         public string Username { get; set; }
+
+        [Magic]
+        public SolidColorBrush EyeUpColor { get; set; }
+        [Magic]
+        public SolidColorBrush EyeDownColor { get; set; }
+        [Magic]
+        public SolidColorBrush EyeLeftColor { get; set; }
+        [Magic]
+        public SolidColorBrush EyeRightColor { get; set; }
+
+        private static SolidColorBrush _blue = new SolidColorBrush(Colors.Blue);
+        private static SolidColorBrush _red = new SolidColorBrush(Colors.Red);
+
         public MainViewModel(ICamera camera, 
                              Windows windows, 
                              ProcessMonitor processMonitor, 
@@ -46,12 +65,35 @@ namespace Sense.ViewModels {
             _windows = windows;
             _processMonitor = processMonitor;
             _userWatcher = userWatcher;
+            Items = new ObservableCollection<Item>();
             AddAllItems();
             BindBlinks();
             BindSmiles();
-            
+            BindYawns();
+
+            EyeUpColor = _blue;
+            EyeDownColor = _blue;
+            EyeLeftColor = _blue;
+            EyeRightColor = _blue;
+
+            var _eyes = new Dictionary<Direction, Action<SolidColorBrush>> {
+                {Direction.Up, c => EyeUpColor = c},
+                {Direction.Down, c => EyeDownColor= c},
+                {Direction.Left, c => EyeLeftColor= c},
+                {Direction.Right, c => EyeRightColor= c},
+                {Direction.None, c => { }}
+            };
+
+            camera.Face.EyesDirectionChanged += (sender, args) => {
+                _eyes[args.NewDirection].Invoke(_red);
+                Task.Run(async () => {
+                    await Task.Delay(1000);
+                    _eyes[args.NewDirection].Invoke(_blue);
+                });
+            };
+
             Mediator.Default.Subscribe<UserChangedMessage>(this, message => Username = message.Value);
-            
+
             _processMonitor.ActiveProcessChanged += processName => {
                 Dispatcher.Run(() => CurrentProcess = processName);
             };
@@ -62,13 +104,8 @@ namespace Sense.ViewModels {
         }
 
         public void RecognizeUser() {
+            Username = "wait...";
             _userWatcher.RecognizeUser();
-        }
-
-        private void BindSmiles() {
-            _camera.Face.Mouth.Smiled += (sender, args) => {
-                Smiles++;
-            };
         }
 
         private void BindBlinks() {
@@ -90,8 +127,30 @@ namespace Sense.ViewModels {
             }, TaskCreationOptions.LongRunning);
         }
 
-        private void AddAllItems() {
-            Items = new ObservableCollection<Item>();
+        private void BindSmiles() {
+            _camera.Face.Mouth.Smiled += (sender, args) => {
+                Smiles++;
+            };
+        }
+
+        private void BindYawns() {
+            _camera.Face.Yawned += (sender, args) => {
+                Yawms++;
+            };
+        }
+
+        //private void AddAllItemsLoop() {
+        //    Items = new ObservableCollection<Item>();
+        //    Task.Run(async () => {
+        //        while (true) {
+        //            await Task.Delay(2000);
+        //            //Items.Clear();
+        //            AddAllItems();
+        //        }
+        //    });
+        //}
+
+        public void AddAllItems() {
             AddItems(_camera.LeftHand);
             AddItems(_camera.LeftHand.GetAllFingers().SelectMany(f => f.GetAllJoints()).ToArray());
             AddItems(_camera.LeftHand.GetAllFingers().Cast<Item>().ToArray());
@@ -99,14 +158,10 @@ namespace Sense.ViewModels {
             AddItems(_camera.RightHand.GetAllFingers().SelectMany(f => f.GetAllJoints()).ToArray());
             AddItems(_camera.RightHand.GetAllFingers().Cast<Item>().ToArray());
             AddItems(_camera.Face);
-            Task.Run(async () => {
-                while (true) {
-                    await Task.Delay(2000);
-                    foreach (var item in Items) {
-                        item.IsVisible = false;
-                    }                    
-                }
-            });
+            AddItems(_camera.Face.LeftEye);
+            AddItems(_camera.Face.RightEye);
+            AddItems(_camera.Face.Mouth);
+            
         }
        
         private void AddItems(params Item[] items) {

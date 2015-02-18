@@ -23,6 +23,8 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WinSense.Setup", "WinSense.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sense.Tests", "Sense.Tests\Sense.Tests.csproj", "{459C9504-263E-49CB-B887-17C080A4A294}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sense.VoiceCommands", "Sense.VoiceCommands\Sense.VoiceCommands.csproj", "{BFAD7DF9-AB20-40D6-92E7-386C07652D25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +92,11 @@ Global
 		{459C9504-263E-49CB-B887-17C080A4A294}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{459C9504-263E-49CB-B887-17C080A4A294}.Release|Any CPU.Build.0 = Release|Any CPU
 		{459C9504-263E-49CB-B887-17C080A4A294}.Release|x64.ActiveCfg = Release|Any CPU
+		{BFAD7DF9-AB20-40D6-92E7-386C07652D25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFAD7DF9-AB20-40D6-92E7-386C07652D25}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BFAD7DF9-AB20-40D6-92E7-386C07652D25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFAD7DF9-AB20-40D6-92E7-386C07652D25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFAD7DF9-AB20-40D6-92E7-386C07652D25}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

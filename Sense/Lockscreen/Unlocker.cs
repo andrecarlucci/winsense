@@ -21,10 +21,9 @@ namespace Sense.Lockscreen {
                 while (true) {
                     await Task.Delay(TimeSpan.FromMilliseconds(200));
                     int currentUser = _camera.Face.UserId;
-                    int registeredUser = Config.Default.GetInt(ConfigKeys.UserId);
-                    if (currentUser == registeredUser) {
+                    int registeredUser = WinSenseConfig.GetUser().Id;
+                    if (currentUser == registeredUser && _camera.Face.IsVisible) {
                         _client.Authorize().Wait();
-                        Debug.WriteLine(currentUser + " " + registeredUser);
                     }
                 }
             });

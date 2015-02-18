@@ -4,69 +4,44 @@ using System.Threading.Tasks;
 using MrWindows;
 using Sense.Storage;
 using SharpSenses;
+using XamlActions;
 
 namespace Sense.Services {
 
-    public class FaceTracker {
-        private readonly ICamera _camera;
-        public int CurrentUserId { get; private set; }
-        public DateTime LastSeen { get; private set; }
-
-        public FaceTracker(ICamera camera) {
-            _camera = camera;
-        }
-
-        public void Start() {
-            _camera.Face.FaceRecognized += FaceOnFaceRecognized;
-            _camera.Face.Visible += (s, a) => {
-                LastSeen = DateTime.Now;
-                Debug.WriteLine("Face visible");
-            };
-            _camera.Face.NotVisible += (s, a) => {
-                LastSeen = DateTime.Now;
-                Debug.WriteLine("Face not visible");
-            };
-        }
-
-        public void RecognizeCurrentUser() {
-            CurrentUserId = 0;
-            _camera.Face.RecognizeFace();
-        }
-
-        private void FaceOnFaceRecognized(object sender, FaceRecognizedEventArgs args) {
-            if (args.UserId == CurrentUserId) {
-                return;
-            }
-            CurrentUserId = args.UserId;
-            Config.Default.Set(ConfigKeys.UserId, args.UserId);
-        }
-    }
-
     public class LockscreenWatcher {
-        private readonly FaceTracker _faceTracker;
+        private readonly ICamera _camera;
         private readonly Windows _windows;
+        private readonly Face _face;
         public static int ThresholdInSeconds = 5;
+        private DateTime _lastSeen;
 
-        public bool Active { get; set;}
         public bool Enabled { get; set; }
 
-        public LockscreenWatcher(FaceTracker faceTracker, Windows windows) {
-            _faceTracker = faceTracker;
+        public LockscreenWatcher(ICamera camera, Windows windows) {
+            _camera = camera;
             _windows = windows;
+            _face = _camera.Face;
+            Mediator.Default.Subscribe<LockscreenEnabledMessage>(this, m => Enabled = m.Enabled);
         }
 
         public void Start() {
             Task.Run(async () => {
                 while (true) {
                     await Task.Delay(1000);
-                    if (!Active) {
+                    if (!Enabled || _face.IsVisible) {
+                        _lastSeen = DateTime.Now;
                         continue;
                     }
-                    if (_faceTracker.CurrentUserId < 0 && DateTime.Now - _faceTracker.LastSeen > TimeSpan.FromSeconds(ThresholdInSeconds)) {
+                    Debug.WriteLine("[Warn] Lockscreen: " + (DateTime.Now - _lastSeen).TotalSeconds);
+                    if ((DateTime.Now - _lastSeen).TotalSeconds > 5) {
                         _windows.LockWorkStation();
                     }
                 }
             });
-        }        
+        }
+
+        private bool IsRegisteredUser() {
+            return _face.IsVisible && _face.UserId == WinSenseConfig.GetUser().Id;
+        }
     }
 }

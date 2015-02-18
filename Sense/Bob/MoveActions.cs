@@ -10,19 +10,29 @@ namespace Sense.Bob {
         }
 
         public string GetAnswerFor(string sentence) {
-            if (sentence.Contains("move left")) {
-                _windows.Keyboard.Press(VirtualKey.Left);
+            const string press = "press|breasts|breast|rest";
+            const string left = "left|let|let's|lift|lunch";
+            const string right = "right|rights";
+            const string up = "up|much|lunch|duck|of|book|look";
+            const string down = "down|now";
+
+            if (sentence.HasWordsInSequence(press, left)) {
+                _windows.Keyboard.Press(VirtualKey.Left);                
             }
-            else if (sentence.Contains("move right")) {
+            else if (sentence.HasWordsInSequence(press, right)) {
                 _windows.Keyboard.Press(VirtualKey.Right);
             }
-            else if (sentence.Contains("move up")) {
+            else if (sentence.HasWordsInSequence(press, up)) {
                 _windows.Keyboard.Press(VirtualKey.Up);
             }
-            else if (sentence.Contains("move down")) {
+            else if (sentence.HasWordsInSequence(press, down)) {
                 _windows.Keyboard.Press(VirtualKey.Down);
             }
             return "";
+        }
+
+        public void OnOtherSubject() {
+            
         }
     }
 }

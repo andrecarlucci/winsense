@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Hardcodet.Wpf.TaskbarNotification;
+using Sense.Services;
 using XamlActions;
 
 namespace Sense {
@@ -42,8 +43,18 @@ namespace Sense {
             DragMove();
         }
 
-        private void MenuItem_OnChecked(object sender, RoutedEventArgs e) {
-            //_faceMonitorActive = LockScreenMonitor.IsChecked;
+        private void LockscreenWatcher_OnChecked(object sender, RoutedEventArgs e) {
+            Mediator.Default.Publish(new LockscreenEnabledMessage(LockScreenMonitorMenu.IsChecked));
+            ChangeWatcherText();
+        }
+
+        private void Watcher_OnClick(object sender, RoutedEventArgs e) {
+            LockScreenMonitorMenu.IsChecked = !LockScreenMonitorMenu.IsChecked;
+            ChangeWatcherText();
+        }
+
+        private void ChangeWatcherText() {
+            WatcherText.Text = LockScreenMonitorMenu.IsChecked ? "on" : "off";        
         }
 
         private void PanelVisible_OnChecked(object sender, RoutedEventArgs e) {
@@ -69,5 +80,6 @@ namespace Sense {
             PanelVisible.IsChecked = !PanelVisible.IsChecked;
             ChangeVisibility();
         }
+
     }
 }

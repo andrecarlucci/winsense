@@ -16,14 +16,14 @@ namespace Sense.Services {
         public void Start() {
             _speech.CurrentLanguage = SupportedLanguage.EnUS;
             _speech.SpeechRecognized += (sender, args) => {
-                Debug.WriteLine("Voice: " + args.Sentence);
+                Console.WriteLine("Voice: " + args.Sentence);
                 var answer = _mrBob.GetAnswerFor(args.Sentence);
                 if (!String.IsNullOrEmpty(answer)) {
                     _speech.Say(answer);
                 }
             };
             _speech.EnableRecognition();
-            Debug.WriteLine("recognition enabled");
+            Console.WriteLine("recognition enabled");
         }
     }
 }

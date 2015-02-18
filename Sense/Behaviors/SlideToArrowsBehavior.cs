@@ -27,18 +27,42 @@ namespace Sense.Behaviors {
         }
 
         private void OnSlideRight(object sender, GestureEventArgs args) {
+            if (Camera.LeftHand.IsVisible && !Camera.LeftHand.IsOpen) {
+                return;
+            }
+            if (Camera.RightHand.IsVisible && !Camera.RightHand.IsOpen) {
+                return;
+            }
             Windows.Keyboard.Type(VirtualKey.Right);
         }
 
         private void OnSlideLeft(object sender, GestureEventArgs args) {
+            if (Camera.LeftHand.IsVisible && !Camera.LeftHand.IsOpen) {
+                return;
+            }
+            if (Camera.RightHand.IsVisible && !Camera.RightHand.IsOpen) {
+                return;
+            }
             Windows.Keyboard.Type(VirtualKey.Left);
         }
 
         private void GesturesOnSlideUp(object sender, GestureEventArgs args) {
+            if (Camera.LeftHand.IsVisible && !Camera.LeftHand.IsOpen) {
+                return;
+            }
+            if (Camera.RightHand.IsVisible && !Camera.RightHand.IsOpen) {
+                return;
+            }
             Windows.Keyboard.Type(VirtualKey.Up);
         }
 
         private void GesturesOnSlideDown(object sender, GestureEventArgs gestureEventArgs) {
+            if (Camera.LeftHand.IsVisible && !Camera.LeftHand.IsOpen) {
+                return;
+            }
+            if (Camera.RightHand.IsVisible && !Camera.RightHand.IsOpen) {
+                return;
+            }
             Windows.Keyboard.Type(VirtualKey.Down);
         }
     }

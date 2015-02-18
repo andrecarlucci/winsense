@@ -7,7 +7,6 @@ namespace Sense.Profiles {
         public StoreApps(Dictionary<Type, Behavior> allBehaviors)
             : base(allBehaviors) {
             Add<SlideToArrowsBehavior>();
-            Add<WaveToCloseApp>();
             Add<LookToAllDirectionsToArrows>();
         }
         public override string Name {

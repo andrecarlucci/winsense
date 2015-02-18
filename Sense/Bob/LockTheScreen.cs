@@ -8,13 +8,15 @@ namespace Sense.Bob {
         public LockTheScreen(Windows windows) {
             _windows = windows;
         }
-
         public string GetAnswerFor(string sentence) {
-            if (sentence.HasWordsInSequence("bob", "lock", "screen")) {
+            if (sentence.HasWordsInSequence("sarah", "lock|look|what|luck", "screen")) {
                 _windows.LockWorkStation();
-                return "Screen locked as requested".AppendUser();
+                return "Screen locked as requested";
             }
             return "";
+        }
+
+        public void OnOtherSubject() {
         }
     }
 }

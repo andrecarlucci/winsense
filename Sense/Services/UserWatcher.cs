@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sense.Models;
 using Sense.Storage;
 using Sense.Util;
 using SharpSenses;
@@ -33,37 +34,33 @@ namespace Sense.Services {
         }
 
         public void RecognizeUser() {
-            if (_recognizeRequested) {
-                return;
-            }
             _recognizeRequested = true;
+            _camera.Face.UserId = -1;
             _camera.Face.RecognizeFace();
         }
 
         private void FaceOnFaceRecognized(object sender, FaceRecognizedEventArgs args) {
             int userId = args.UserId;
-            if (IsTheRegisteredUser(userId)) {
-                Username = Config.Default.Get(ConfigKeys.Username);
+            if (userId < 0) {
+                Username = "";
                 return;
             }
             if (_recognizeRequested) {
-                string username = _inputService.GetInput("Face recognized!", "Please, enter your name");
+                string username = _inputService.GetInput("Face recognized!", "Please, enter your name as the registered user");
+                _recognizeRequested = false;
                 if (String.IsNullOrWhiteSpace(username)) {
                     return;
                 }
                 username = username.Trim().ToLower();
-                Config.Default.Set(ConfigKeys.UserId, userId);
-                Config.Default.Set(ConfigKeys.Username, username);
-                Username = username;    
+                WinSenseConfig.SetUser(new User(userId, username));
+                _camera.Speech.Say("Hello, " + username + ". Welcome to Windows Sense.");
             }
-            else {
-                Username = "";
+            var user = WinSenseConfig.GetUser();
+            if (user.Id == userId) {
+                Username = user.Name;
+                return;
             }
-            _recognizeRequested = false;
-        }
-
-        private static bool IsTheRegisteredUser(int userId) {
-            return Config.Default.GetInt(ConfigKeys.UserId) == userId;
+            Username = "";
         }
     }
 }

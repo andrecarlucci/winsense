@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using MrWindows;
 using Sense.Util;
@@ -35,11 +36,15 @@ namespace Sense.Behaviors {
                 Camera.LeftHand);
 
             _cameraToScreenMapper.Moved += CameraToScreenMapperOnMoved;
+
             Camera.Gestures.MoveForward += OnMoveForward;
+            
             Camera.RightHand.Closed += OnRightHandOnClosed;
             Camera.RightHand.Opened += OnRightHandOnOpened;
+            
             Camera.RightHand.Visible += OnRightHandVisible;
             Camera.RightHand.NotVisible += OnRightHandNotVisible;
+            
             _closeBothHands.Begin += CloseBothHandsOnBegin;
             _closeBothHands.End += CloseBothHandsOnEnd;
         }
@@ -80,26 +85,32 @@ namespace Sense.Behaviors {
         }
 
         private void OnRightHandNotVisible(object sender, EventArgs args) {
+            Debug.WriteLine("NotVisible");
             Windows.Mouse.MouseLeftUp();
             _scrolling = false;
         }
 
         private void OnRightHandVisible(object sender, EventArgs args) {
+            Debug.WriteLine("Visible");
+            
             Windows.Mouse.MouseLeftUp();
             _scrolling = false;
         }
 
+
         private void OnRightHandOnOpened(object sender, EventArgs args) {
+            Debug.WriteLine("Up");
             Windows.Mouse.MouseLeftUp();
             _scrolling = false;
         }
 
         private void OnRightHandOnClosed(object sender, EventArgs args) {
+            Debug.WriteLine("Down");
             Windows.Mouse.MouseLeftDown();
         }
 
         private void OnMoveForward(object sender, EventArgs args) {
-            Windows.Mouse.MouseLeftClick();
+            //Windows.Mouse.MouseLeftClick();
         }
     }
 }

@@ -6,10 +6,10 @@
         xmlns:actions="clr-namespace:XamlActions.Actions;assembly=XamlActions.Wpf"
         xmlns:converters="clr-namespace:Sense.Converters"
         Topmost="True"
-        Title="MainWindow" 
+        Title="WinSenses" 
         WindowStartupLocation="Manual" 
         Left="0" Top="0"
-        Width="440" Height="240"
+        Width="444" Height="244"
         ResizeMode="NoResize" 
         Opacity="0.6" 
         WindowStyle="None" 
@@ -18,6 +18,8 @@
         Foreground="White" 
         AllowsTransparency="True"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel }"
+        BorderThickness="2"
+        BorderBrush="Black" Icon="Assets/blue.ico" ShowInTaskbar="False"
         >
 
     <Grid>
@@ -33,7 +35,9 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Ellipse Fill="CornflowerBlue" Width="5" Height="5" Visibility="{Binding Path=IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <Ellipse Width="5" Height="5" 
+                             Fill="{Binding Converter={StaticResource ColorConverter}}" 
+                             Visibility="{Binding Path=IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>
@@ -54,7 +58,7 @@
                 <RowDefinition Height="58" />
                 <RowDefinition Height="58" />
                 <RowDefinition Height="58" />
-                <RowDefinition Height="58" />
+                <RowDefinition Height="64" />
             </Grid.RowDefinitions>
             <Grid.Resources>
                 <Style TargetType="Grid">
@@ -75,6 +79,12 @@
                     <Setter Property="VerticalAlignment" Value="Bottom" />
                     <Setter Property="Margin" Value="2" />
                 </Style>
+                <Style x:Key="ButtonLabel" TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="10" />
+                    <Setter Property="Margin" Value="0,14,6,0" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                </Style>
             </Grid.Resources>
             <Grid>
                 <TextBlock Text="blinks" Style="{StaticResource TextLabel}"/>
@@ -88,31 +98,46 @@
                 <TextBlock Text="smiles" Style="{StaticResource TextLabel}" />
                 <TextBlock Text="{Binding Smiles}" Style="{StaticResource TextValue}" />
             </Grid>
-            <!--<Grid Grid.Row="1" Grid.Column="1">
+            <Grid Grid.Row="1" Grid.Column="1">
                 <TextBlock Text="yawns" Style="{StaticResource TextLabel}" />
-                <TextBlock Text="{Binding Smiles}" Style="{StaticResource TextValue}" />
-            </Grid>-->
+                <TextBlock Text="{Binding Yawms}" Style="{StaticResource TextValue}" />
+            </Grid>
             <Grid Grid.Row="2" Grid.Column="0">
-                <Button>
-                    <actions:Events.Mappings>
-                        <actions:Map Event="Click" ToMethod="RecognizeUser" />
-                    </actions:Events.Mappings>
-                    <Grid>
-                        <Image Width="32" Height="32" Margin="0,0,0,12" Source="Assets/adduser2.png"
-                                /> 
-                        <!--<Image Width="32" Height="32" Source="Assets/user2.png" 
-                               Visibility="{Binding Path=UserIconVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />--> 
-                        <TextBlock Margin="2,0,0,6" Text="user" Style="{StaticResource TextLabel}" />
-                        <TextBlock Text="{Binding Username}" Style="{StaticResource TextValue}" />
-                    </Grid>
-                </Button>
+                <Ellipse Width="6" Height="6" Fill="{Binding EyeUpColor}" VerticalAlignment="Top" Margin="0,18" />
+                <Ellipse Width="6" Height="6" Fill="{Binding EyeDownColor}" VerticalAlignment="Bottom" Margin="0,18" />
+                <Ellipse Width="6" Height="6" Fill="{Binding EyeLeftColor}" HorizontalAlignment="Left" Margin="18,0" />
+                <Ellipse Width="6" Height="6" Fill="{Binding EyeRightColor}" HorizontalAlignment="Right" Margin="18,0" />
+                <TextBlock Text="eyes" Style="{StaticResource TextLabel}" />
             </Grid>
             <Grid Grid.Row="2" Grid.Column="1">
                 <Image Width="32" Height="32"
                        Source="{Binding Converter={StaticResource ImageConverter}, Path=CurrentProfile}"></Image>
                 <TextBlock Text="profile" Style="{StaticResource TextLabel}" />
             </Grid>
-            
+            <Grid Grid.Row="3" Grid.Column="0" Margin="0,8,0,0">
+                <Button>
+                    <actions:Events.Mappings>
+                        <actions:Map Event="Click" ToMethod="RecognizeUser" />
+                    </actions:Events.Mappings>
+                    <Grid>
+                        <Image Width="32" Height="32" Margin="0,0,6,12" Source="Assets/user3.png" />
+                        <TextBlock Margin="2,0,0,6" Text="user" Style="{StaticResource TextLabel}" />
+                        <TextBlock Text="{Binding Username}" Style="{StaticResource ButtonLabel}" />
+                    </Grid>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="3" Grid.Column="1"  Margin="0,8,0,0">
+                <Button Click="Watcher_OnClick">
+                    <Grid>
+                        <Image Width="32" Height="32" Margin="0,0,6,12" Source="Assets/radar.png" />
+                        <TextBlock Margin="2,0,0,6" Text="watcher" Style="{StaticResource TextLabel}" />
+                        <TextBlock x:Name="WatcherText"
+                                   Text="off" 
+                                   Style="{StaticResource ButtonLabel}" 
+                                  />
+                    </Grid>
+                </Button>
+            </Grid>
         </Grid>
 
         <tb:TaskbarIcon x:Name="NotifyIcon"
@@ -120,11 +145,11 @@
           ToolTipText="Control de World!" TrayMouseDoubleClick="NotifyIcon_TrayMouseDoubleClick">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
-                    <MenuItem x:Name="LockScreenMonitor" 
+                    <MenuItem x:Name="LockScreenMonitorMenu" 
                               Header="LockScreen Watcher" 
                               IsCheckable="True" 
-                              Checked="MenuItem_OnChecked"
-                              Unchecked="MenuItem_OnChecked"
+                              Checked="LockscreenWatcher_OnChecked"
+                              Unchecked="LockscreenWatcher_OnChecked"
                               >
                     </MenuItem>
                     <MenuItem x:Name="PanelVisible" 

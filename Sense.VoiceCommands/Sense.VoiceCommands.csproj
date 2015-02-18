@@ -4,25 +4,28 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{459C9504-263E-49CB-B887-17C080A4A294}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{BFAD7DF9-AB20-40D6-92E7-386C07652D25}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sense.Tests</RootNamespace>
-    <AssemblyName>Sense.Tests</AssemblyName>
+    <RootNamespace>Sense.VoiceCommands</RootNamespace>
+    <AssemblyName>Sense.VoiceCommands</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Sense\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -31,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,18 +41,26 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="XamlActions, Version=2.6.5514.108, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\XamlActions.2.6.5514.108\lib\net45\XamlActions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sense.VoiceCommands\Sense.VoiceCommands.csproj">
-      <Project>{bfad7df9-ab20-40d6-92e7-386c07652d25}</Project>
-      <Name>Sense.VoiceCommands</Name>
+    <ProjectReference Include="..\..\MrWindows\MrWindows\MrWindows.csproj">
+      <Project>{8ec5e180-7455-46fd-bfd5-7a16c99eb19d}</Project>
+      <Name>MrWindows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SharpSenses\SharpSenses\SharpSenses.csproj">
+      <Project>{f4f42c71-bfa3-40d0-b070-b5fe1468bb6a}</Project>
+      <Name>SharpSenses</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sense\Sense.csproj">
       <Project>{c02d1149-9972-4d7f-b6c6-8c66a512e0b2}</Project>
