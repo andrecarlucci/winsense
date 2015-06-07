@@ -78,12 +78,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.5\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
-    <Reference Include="libpxcclr.cs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ca106b2214526f83, processorArchitecture=AMD64">
+    <Reference Include="libpxcclr.cs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\SharpSenses\_libs\libpxcclr.cs.dll</HintPath>
+      <HintPath>..\packages\libpxcclr.cs.1.0.0.0\lib\net40\libpxcclr.cs.dll</HintPath>
     </Reference>
     <Reference Include="Ookii.Dialogs.Wpf">
       <HintPath>..\packages\Ookii.Dialogs.1.0\lib\net35\Ookii.Dialogs.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpSenses, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\sharpsenses.realsense.0.8.0.0\lib\net45\SharpSenses.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpSenses.RealSense, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\sharpsenses.realsense.0.8.0.0\lib\net45\SharpSenses.RealSense.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -114,6 +122,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\DoubleBlickToRightBehavior.cs" />
     <Compile Include="Behaviors\JoinHandsToCloseAppBehavior.cs" />
     <Compile Include="Behaviors\LookDownForScrollDown.cs" />
     <Compile Include="Behaviors\LookToAllDirectionsToArrows.cs" />
@@ -256,14 +265,6 @@
     <ProjectReference Include="..\..\MrWindows\MrWindows\MrWindows.csproj">
       <Project>{8ec5e180-7455-46fd-bfd5-7a16c99eb19d}</Project>
       <Name>MrWindows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SharpSenses\SharpSenses.RealSense\SharpSenses.RealSense.csproj">
-      <Project>{054db117-f173-488b-94a1-43e1a4f61a66}</Project>
-      <Name>SharpSenses.RealSense</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SharpSenses\SharpSenses\SharpSenses.csproj">
-      <Project>{f4f42c71-bfa3-40d0-b070-b5fe1468bb6a}</Project>
-      <Name>SharpSenses</Name>
     </ProjectReference>
     <ProjectReference Include="..\StringSocket\StringSocket.csproj">
       <Project>{9fb0cc14-aa09-4118-9510-3b0161799ea5}</Project>

@@ -24,12 +24,7 @@ namespace Playground {
             //Console.WriteLine("Done!");
             //Environment.Exit(0);
 
-            try {
-                camera = Camera.Create(CameraKind.RealSense);
-            }
-            catch (Exception ex) {
-                camera = Camera.Create(CameraKind.RealSense);                   
-            }
+            camera = Camera.Create();
 
             camera.Gestures.SlideLeft += GesturesOnSlideLeft;
             camera.Gestures.SlideRight += GesturesOnSlideLeft;

@@ -1,5 +1,4 @@
-﻿using System;
-using MrWindows;
+﻿using MrWindows;
 using MrWindows.KeyboardControl;
 using SharpSenses;
 using SharpSenses.Gestures;

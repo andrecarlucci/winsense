@@ -17,6 +17,15 @@ namespace Sense.Lockscreen {
         public void Start() {
             _client.Start();
 
+            _camera.Gestures.SlideLeft += (sender, args) => {
+                _client.Authorize().Wait();
+            };
+
+            _camera.Gestures.SlideRight += (sender, args) => {
+                _client.Authorize().Wait();
+            };
+
+
             Task.Run(async () => {
                 while (true) {
                     await Task.Delay(TimeSpan.FromMilliseconds(200));

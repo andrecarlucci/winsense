@@ -13,7 +13,7 @@ namespace Sense.VoiceCommands {
     class Program {
         static void Main(string[] args) {
             try {
-                var camera = Camera.Create(CameraKind.RealSense);
+                var camera = Camera.Create();
                 ServiceLocator.Default.Register<ICamera>(() => camera);
                 var speechService = new SpeechService(camera);
                 speechService.Start();

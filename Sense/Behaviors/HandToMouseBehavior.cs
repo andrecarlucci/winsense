@@ -59,7 +59,9 @@ namespace Sense.Behaviors {
 
         private void CameraToScreenMapperOnMoved(Point p1, Point p2) {
             if (_scrolling) {
-                var direction = DirectionHelper.GetDirection(p1, p2);
+                var p3d1 = new Point3D(p1.X, p1.Y);
+                var p3d2 = new Point3D(p1.X, p1.Y);
+                var direction = DirectionHelper.GetDirection(p3d1, p3d2);
                 if (direction == Direction.Left || direction == Direction.Right) {
                     Windows.Mouse.ScrollHorizontally(p2.X - p1.X);
                 }

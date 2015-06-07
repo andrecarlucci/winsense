@@ -19,7 +19,7 @@ namespace Sense {
 
         static App() {
             Item.DefaultNoiseThreshold = 3;
-            var camera = Camera.Create(CameraKind.RealSense);
+            var camera = Camera.Create();
             camera.Speech.CurrentLanguage = SupportedLanguage.EnUS;
             MrWindows = new Windows();
             ProcessMonitor = new ProcessMonitor(MrWindows);
@@ -42,7 +42,7 @@ namespace Sense {
             var unlocker = new Unlocker(new RealSenseCredentialPluginClient(), camera);
             unlocker.Start();
 
-            RunVoice();
+            //RunVoice();
         }
 
         public static void RunVoice() {
@@ -55,8 +55,6 @@ namespace Sense {
                 _speechProcess.StartInfo.UseShellExecute = false;
                 _speechProcess.StartInfo.CreateNoWindow = true;
                 _speechProcess.Start();
-                
-
             }
             catch (Exception ex) {
                 Debug.WriteLine("Speech: " + ex);
@@ -73,7 +71,14 @@ namespace Sense {
                 Sense.MainWindow.TaskbarIcon.Icon = null;
                 Sense.MainWindow.TaskbarIcon.Dispose();
             }
-            _speechProcess.Kill();
+            if (_speechProcess == null) {
+                return;
+            }
+            try {
+                _speechProcess.Kill();            
+            }
+            catch {
+            }
             _speechProcess.SilentlyDispose();
         }
     }

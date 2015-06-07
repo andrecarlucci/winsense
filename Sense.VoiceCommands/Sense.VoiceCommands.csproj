@@ -58,6 +58,10 @@
       <Project>{8ec5e180-7455-46fd-bfd5-7a16c99eb19d}</Project>
       <Name>MrWindows</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SharpSenses\SharpSenses.RealSense\SharpSenses.RealSense.csproj">
+      <Project>{054DB117-F173-488B-94A1-43E1A4F61A66}</Project>
+      <Name>SharpSenses.RealSense</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SharpSenses\SharpSenses\SharpSenses.csproj">
       <Project>{f4f42c71-bfa3-40d0-b070-b5fe1468bb6a}</Project>
       <Name>SharpSenses</Name>
