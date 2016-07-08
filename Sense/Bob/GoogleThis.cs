@@ -1,11 +1,11 @@
-using MrWindows;
+using Dear;
 
 namespace Sense.Bob {
     public class GoogleThis : ISubject {
 
-        private readonly Windows _windows;
+        private readonly MrWindows _windows;
 
-        public GoogleThis(Windows windows) {
+        public GoogleThis(MrWindows windows) {
             _windows = windows;
         }
 
@@ -15,7 +15,7 @@ namespace Sense.Bob {
             }
             if (sentence.StartsWithOneOf("google|go-go")) {
                 var search = sentence.GetAllAfter("google");
-                _windows.GoogleThis(search);
+                _windows.TaskManager.GoogleThis(search);
                 return "Let me google that for you";
             }
             return "";

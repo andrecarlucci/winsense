@@ -1,6 +1,5 @@
 ﻿using System;
-using MrWindows;
-using MrWindows.KeyboardControl;
+using Dear;
 using SharpSenses;
 using SharpSenses.Poses;
 
@@ -9,7 +8,8 @@ namespace Sense.Behaviors {
 
         private Pose _joinHands;
 
-        public JoinHandsToCloseAppBehavior(Windows windows, ICamera camera) : base(windows, camera) {
+        public JoinHandsToCloseAppBehavior(MrWindows windows, ICamera camera)
+            : base(windows, camera) {
             _joinHands = PoseBuilder.Create()
                 .ShouldBeNear(camera.LeftHand, camera.RightHand, 100)
                 .Build();

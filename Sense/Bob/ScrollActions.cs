@@ -1,11 +1,11 @@
 ﻿using System.Threading;
-using MrWindows;
+using Dear;
 
 namespace Sense.Bob {
     public class ScrollActions : ISubject {
-        private readonly Windows _windows;
+        private readonly MrWindows _windows;
 
-        public ScrollActions(Windows windows) {
+        public ScrollActions(MrWindows windows) {
             _windows = windows;
         }
 

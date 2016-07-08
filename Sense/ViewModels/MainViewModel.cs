@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Threading;
-using MrWindows;
+using Dear;
 using Sense.Profiles;
 using Sense.Services;
 using Sense.Storage;
@@ -19,7 +19,7 @@ namespace Sense.ViewModels {
     public class MainViewModel : ViewModelBase {
         private static readonly object _sync = new object();
         private readonly ICamera _camera;
-        private readonly Windows _windows;
+        private readonly MrWindows _windows;
         private readonly ProcessMonitor _processMonitor;
         private readonly UserWatcher _userWatcher;
 
@@ -57,7 +57,7 @@ namespace Sense.ViewModels {
         private static SolidColorBrush _red = new SolidColorBrush(Colors.Red);
 
         public MainViewModel(ICamera camera, 
-                             Windows windows, 
+                             MrWindows windows,
                              ProcessMonitor processMonitor, 
                              ProfileManager profileManager,
                              UserWatcher userWatcher) {

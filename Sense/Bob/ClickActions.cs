@@ -1,10 +1,10 @@
-﻿using MrWindows;
+﻿using Dear;
 
 namespace Sense.Bob {
     public class ClickActions : ISubject {
-        private readonly Windows _windows;
+        private readonly MrWindows _windows;
 
-        public ClickActions(Windows windows) {
+        public ClickActions(MrWindows windows) {
             _windows = windows;
         }
 

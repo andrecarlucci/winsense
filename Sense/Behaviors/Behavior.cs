@@ -1,4 +1,4 @@
-﻿using MrWindows;
+﻿using Dear;
 using Sense.Util;
 using SharpSenses;
 using XamlActions;
@@ -6,7 +6,7 @@ using XamlActions;
 namespace Sense.Behaviors {
     public abstract class Behavior {
 
-        public Windows Windows { get; set; }
+        public MrWindows Windows { get; set; }
         public ICamera Camera { get; set; }
         public abstract string Name { get; }
 
@@ -16,7 +16,7 @@ namespace Sense.Behaviors {
             Mediator.Default.Publish(new NotifyIconMessage(message));
         }
              
-        protected Behavior(Windows windows, ICamera camera) {
+        protected Behavior(MrWindows windows, ICamera camera) {
             Windows = windows;
             Camera = camera;
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using MrWindows;
+using Dear;
 using Sense.Behaviors;
 using Sense.Services;
 using SharpSenses;
@@ -10,13 +10,13 @@ using SharpSenses;
 namespace Sense.Profiles {
     public class ProfileManager {
         private readonly ICamera _camera;
-        private readonly Windows _windows;
+        private readonly MrWindows _windows;
         private readonly ProcessMonitor _processMonitor;
 
         public event Action<Profile> ProfileChanged;
         public Profile Current;
 
-        public ProfileManager(ICamera camera, Windows windows, ProcessMonitor processMonitor) {
+        public ProfileManager(ICamera camera, MrWindows windows, ProcessMonitor processMonitor) {
             _camera = camera;
             _windows = windows;
             _processMonitor = processMonitor;

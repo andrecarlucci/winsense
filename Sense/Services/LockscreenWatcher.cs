@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using MrWindows;
+using Dear;
 using Sense.Storage;
 using SharpSenses;
 using XamlActions;
@@ -10,14 +10,14 @@ namespace Sense.Services {
 
     public class LockscreenWatcher {
         private readonly ICamera _camera;
-        private readonly Windows _windows;
+        private readonly MrWindows _windows;
         private readonly Face _face;
         public static int ThresholdInSeconds = 5;
         private DateTime _lastSeen;
 
         public bool Enabled { get; set; }
 
-        public LockscreenWatcher(ICamera camera, Windows windows) {
+        public LockscreenWatcher(ICamera camera, MrWindows windows) {
             _camera = camera;
             _windows = windows;
             _face = _camera.Face;

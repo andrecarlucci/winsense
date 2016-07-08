@@ -1,6 +1,6 @@
 using System;
-using MrWindows;
-using MrWindows.KeyboardControl;
+using Dear;
+using Dear.KeyboardControl;
 using SharpSenses;
 using SharpSenses.Gestures;
 
@@ -8,7 +8,7 @@ namespace Sense.Behaviors {
     public class LookToAllDirectionsToArrows : Behavior {
         private bool _trackingEnabled;
         
-        public LookToAllDirectionsToArrows(Windows windows, ICamera camera) : base(windows, camera) {}
+        public LookToAllDirectionsToArrows(MrWindows windows, ICamera camera) : base(windows, camera) {}
 
         public override string Name {
             get {

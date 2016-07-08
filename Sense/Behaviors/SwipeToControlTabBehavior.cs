@@ -1,12 +1,13 @@
 ﻿using System;
-using MrWindows;
-using MrWindows.KeyboardControl;
+using Dear;
+using Dear.KeyboardControl;
 using SharpSenses;
 using SharpSenses.Gestures;
 
 namespace Sense.Behaviors {
     public class SlideToControlTabBehavior : Behavior {
-        public SlideToControlTabBehavior(Windows windows, ICamera camera) : base(windows, camera) {}
+        public SlideToControlTabBehavior(MrWindows windows, ICamera camera) : base(windows, camera) {
+        }
 
         public override string Name {
             get { return "SlideToControlTab"; }

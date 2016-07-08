@@ -1,11 +1,12 @@
-﻿using MrWindows;
-using MrWindows.KeyboardControl;
+﻿
+using Dear;
+using Dear.KeyboardControl;
 
 namespace Sense.Bob {
     public class MoveActions : ISubject {
-        private readonly Windows _windows;
+        private readonly MrWindows _windows;
 
-        public MoveActions(Windows windows) {
+        public MoveActions(MrWindows windows) {
             _windows = windows;
         }
 

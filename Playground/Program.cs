@@ -1,10 +1,9 @@
-﻿using MrWindows;
-using SharpSenses;
+﻿using SharpSenses;
 using SharpSenses.Poses;
 using System;
 using System.Linq;
 using System.Threading;
-using MrWindows.KeyboardControl;
+using Dear;
 using SharpSenses.Gestures;
 
 namespace Playground {
@@ -13,7 +12,7 @@ namespace Playground {
         private static ICamera camera;
 
         static void Main(string[] args) {
-            var win = new Windows();
+            var win = new MrWindows();
             win.Mouse.MouseLeftClick();
 
             //Thread.Sleep(2000);

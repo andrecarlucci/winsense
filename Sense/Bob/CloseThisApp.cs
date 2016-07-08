@@ -1,13 +1,13 @@
 using System.CodeDom;
-using MrWindows;
+using Dear;
 
 namespace Sense.Bob {
     public class CloseThisApp : ISubject {
-        private readonly Windows _windows;
+        private readonly MrWindows _windows;
 
         private bool _stepConfirm;
 
-        public CloseThisApp(Windows windows) {
+        public CloseThisApp(MrWindows windows) {
             _windows = windows;
         }
 

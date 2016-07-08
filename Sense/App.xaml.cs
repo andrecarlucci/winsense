@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using MrWindows;
+using Dear;
 using Sense.Lockscreen;
 using Sense.Profiles;
 using Sense.Services;
@@ -13,7 +13,7 @@ using XamlActions.DI;
 
 namespace Sense {
     public partial class App {
-        public static Windows MrWindows;
+        public static MrWindows MrWindows;
         public static ProcessMonitor ProcessMonitor;
         private static Process _speechProcess = new Process();
 
@@ -21,7 +21,7 @@ namespace Sense {
             Item.DefaultNoiseThreshold = 3;
             var camera = Camera.Create();
             camera.Speech.CurrentLanguage = SupportedLanguage.EnUS;
-            MrWindows = new Windows();
+            MrWindows = new MrWindows();
             ProcessMonitor = new ProcessMonitor(MrWindows);
             ProcessMonitor.Start();
             ServiceLocator.Default.Register(camera);

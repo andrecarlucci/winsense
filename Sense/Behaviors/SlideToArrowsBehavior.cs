@@ -1,11 +1,11 @@
-﻿using MrWindows;
-using MrWindows.KeyboardControl;
+﻿using Dear;
+using Dear.KeyboardControl;
 using SharpSenses;
 using SharpSenses.Gestures;
 
 namespace Sense.Behaviors {
     public class SlideToArrowsBehavior : Behavior {
-        public SlideToArrowsBehavior(Windows windows, ICamera camera) : base(windows, camera) {}
+        public SlideToArrowsBehavior(MrWindows windows, ICamera camera) : base(windows, camera) {}
 
         public override string Name {
             get { return "SlideToArrows"; }

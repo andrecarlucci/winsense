@@ -1,11 +1,11 @@
-﻿using MrWindows;
+﻿using Dear;
 using Sense.Storage;
 
 namespace Sense.Bob {
     public class LockTheScreen : ISubject {
-        private readonly Windows _windows;
+        private readonly MrWindows _windows;
 
-        public LockTheScreen(Windows windows) {
+        public LockTheScreen(MrWindows windows) {
             _windows = windows;
         }
         public string GetAnswerFor(string sentence) {

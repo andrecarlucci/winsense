@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MrWindows;
+using Dear;
 
 namespace Sense.Services {
     public class ProcessMonitor {
-        private Windows _windows;
+        private MrWindows _windows;
         public string CurrentProcess { get; private set; }
         public event Action<string> ActiveProcessChanged;
         public event Action<string> ActiveProcessLoop;
 
-        public ProcessMonitor(Windows windows) {
+        public ProcessMonitor(MrWindows windows) {
             _windows = windows;
         }
 

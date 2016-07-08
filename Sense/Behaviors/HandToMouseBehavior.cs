@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using MrWindows;
+using Dear;
 using Sense.Util;
 using SharpSenses;
 using SharpSenses.Gestures;
@@ -14,7 +14,7 @@ namespace Sense.Behaviors {
         private bool _scrolling;
         private Pose _closeBothHands;
 
-        public HandToMouseBehavior(Windows windows, ICamera camera)
+        public HandToMouseBehavior(MrWindows windows, ICamera camera)
             : base(windows, camera) {
             _closeBothHands = new PoseBuilder()
                 .ShouldBe(Camera.LeftHand, State.Closed)
@@ -29,7 +29,7 @@ namespace Sense.Behaviors {
         }
 
         public override void Activate() {
-            var screenSize = Windows.GetActiveScreenSize();
+            var screenSize = Windows.Screen.GetActiveScreenSize();
             _cameraToScreenMapper = new CameraToScreenMapper(
                 screenSize.Width,
                 screenSize.Height,
